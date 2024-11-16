@@ -81,7 +81,7 @@ class OnboardingActivity : AppCompatActivity() {
             if (currentItem < onboardingPages.size - 1) {
                 binding.viewPager.currentItem = currentItem + 1
             } else {
-                // Navigate to main activity
+                // Nanti Bisa di ganti ke Login page ya mam
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
@@ -106,6 +106,6 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun updateButtonText(position: Int) {
-        binding.buttonNext.text = if (position == onboardingPages.size - 1) "Get Started" else "Next"
+        binding.buttonNext.text = if (position == onboardingPages.size - 1) "Sign In With Google" else "Get Started"
     }
 }
