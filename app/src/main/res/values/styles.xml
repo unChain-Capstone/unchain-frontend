@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    //styling font untuk navbar
+    <style name="BottomNavigationViewTextStyle">
+        <item name="android:fontFamily">@font/semi_bold</item>
+    </style>
+</resources>
