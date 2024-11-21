@@ -9,12 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.unchain.R
 import com.unchain.adapters.OnboardingAdapter
+import com.unchain.auth.LoginActivity
+import com.unchain.data.preferences.PreferencesManager
 import com.unchain.databinding.ActivityOnboardingBinding
 import com.unchain.models.OnboardingPage
 import com.unchain.viewmodels.OnboardingViewModel
 
 class OnboardingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnboardingBinding
+    private lateinit var preferencesManager: PreferencesManager
     private val viewModel: OnboardingViewModel by viewModels()
 
     private val onboardingPages = listOf(
@@ -39,6 +42,8 @@ class OnboardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityOnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        preferencesManager = PreferencesManager(this)
 
         setupViewPager()
         setupIndicators()
@@ -81,8 +86,9 @@ class OnboardingActivity : AppCompatActivity() {
             if (currentItem < onboardingPages.size - 1) {
                 binding.viewPager.currentItem = currentItem + 1
             } else {
-                // Nanti Bisa di ganti ke Login page ya mam
-                startActivity(Intent(this, MainActivity::class.java))
+                preferencesManager.setFirstTimeDone()
+
+                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
         }
