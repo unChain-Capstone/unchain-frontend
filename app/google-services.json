@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "360927979038",
+    "project_id": "testauth-5cd71",
+    "storage_bucket": "testauth-5cd71.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360927979038:android:5ef3b28e4b90086f9a300f",
+        "android_client_info": {
+          "package_name": "com.unchain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360927979038-bvsh05tl83t8t3j6qn2niqbqunvsvgvk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unchain",
+            "certificate_hash": "c812729ca81d38038fa16b19db344dac29977983"
+          }
+        },
+        {
+          "client_id": "360927979038-2pl0s345da0lo9bhab77aq60f9d41m9j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0Tje6wJEIHPHTKwbXDhkF6KBmPm56IXA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360927979038-2pl0s345da0lo9bhab77aq60f9d41m9j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -50,12 +51,17 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.googleid)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
 
-    implementation ("androidx.viewpager2:viewpager2:1.1.0")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    implementation (libs.androidx.viewpager2)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+
+    //Auth
+    implementation(libs.firebase.auth)
+    implementation(libs.play.services.auth)
 }
