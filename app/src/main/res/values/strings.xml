@@ -6,4 +6,8 @@
     <string name="get_started">Get Started</string>
     //sementara
     <string name="web_id">360927979038-2pl0s345da0lo9bhab77aq60f9d41m9j.apps.googleusercontent.com</string>
+    <string name="userName">John Doe</string>
+    <string name="userEmail">johndoe@gmail.com</string>
+    <string name="edit_title">Edit Profile</string>
+    <string name="parent_menu_preferences">Preferences</string>
 </resources>
