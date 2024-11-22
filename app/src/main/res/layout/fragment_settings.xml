@@ -16,6 +16,7 @@
         <ImageView
             android:layout_marginTop="77dp"
             android:id="@+id/userProfile"
+            android:background="@drawable/rounded_corner"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginBottom="16dp"
