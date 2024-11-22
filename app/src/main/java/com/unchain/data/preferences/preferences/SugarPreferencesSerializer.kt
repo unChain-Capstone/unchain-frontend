@@ -3,7 +3,6 @@ package com.unchain.data.preferences.preferences
 import androidx.datastore.core.Serializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.Serializable
 import java.io.InputStream
 import java.io.OutputStream
