@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
@@ -17,20 +16,21 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.firebase.Firebase
-import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import com.unchain.R
 import com.unchain.activities.MainActivity
+import com.unchain.data.preferences.model.UserPreferences
+import com.unchain.data.preferences.preferences.UserPreferencesManager
 import com.unchain.databinding.ActivityLoginBinding
-import com.unchain.databinding.ActivityOnboardingBinding
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var userPreferencesManager: UserPreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -38,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = Firebase.auth
+        userPreferencesManager = UserPreferencesManager(this)
 
         // Check if user is already signed in
         val currentUser = auth.currentUser
@@ -113,6 +114,18 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
+                    user?.let {
+                        lifecycleScope.launch {
+                            userPreferencesManager.saveUser(
+                                UserPreferences(
+                                    userId = it.uid,
+                                    displayName = it.displayName ?: "",
+                                    email = it.email ?: "",
+                                    photoUrl = it.photoUrl?.toString() ?: ""
+                                )
+                            )
+                        }
+                    }
                     updateUI(user)
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)

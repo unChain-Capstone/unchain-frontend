@@ -10,7 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.unchain.R
 import com.unchain.adapters.OnboardingAdapter
 import com.unchain.auth.LoginActivity
-import com.unchain.data.preferences.PreferencesManager
+import com.unchain.data.preferences.preferences.PreferencesManager
 import com.unchain.databinding.ActivityOnboardingBinding
 import com.unchain.models.OnboardingPage
 import com.unchain.viewmodels.OnboardingViewModel

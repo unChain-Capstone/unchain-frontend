@@ -18,28 +18,27 @@
             android:id="@+id/userProfile"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/avatar"
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/userName"
             app:circleCrop="true" />
 
         <!-- User Name -->
         <TextView
-            android:id="@+id/userName"
+            android:id="@+id/tvuserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/userName"
-            android:textStyle="bold"
+            android:fontFamily="@font/semi_bold"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:layout_marginBottom="4dp" />
 
         <!-- User Email -->
         <TextView
-            android:id="@+id/userEmail"
+            android:id="@+id/tvuserEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/userEmail"
-            android:textColor="@android:color/darker_gray"
+            android:fontFamily="@font/semi_bold"
+            android:textColor="@color/black"
             android:layout_marginBottom="16dp" />
 
         <!-- Edit Profile Button -->
@@ -116,6 +115,7 @@
 
         <!-- Support Option -->
         <LinearLayout
+            android:id="@+id/support_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -138,6 +138,7 @@
 
         <!-- Logout Option -->
         <LinearLayout
+            android:id="@+id/logout_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

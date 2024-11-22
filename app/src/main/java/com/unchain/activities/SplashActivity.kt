@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.unchain.R
 import com.unchain.auth.LoginActivity
-import com.unchain.data.preferences.PreferencesManager
+import com.unchain.data.preferences.preferences.PreferencesManager
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth

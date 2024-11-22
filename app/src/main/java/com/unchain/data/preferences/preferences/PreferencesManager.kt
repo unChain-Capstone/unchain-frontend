@@ -1,4 +1,4 @@
-package com.unchain.data.preferences
+package com.unchain.data.preferences.preferences
 
 import android.content.Context
 
