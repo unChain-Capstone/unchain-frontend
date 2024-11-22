@@ -11,10 +11,10 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.unchain.data.preferences.model.UserPreferences
 import com.unchain.data.preferences.preferences.UserPreferencesManager
-import com.unchain.databinding.FragmentHomeBinding // Ensure this import is correct
+import com.unchain.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
-    private var _binding: FragmentHomeBinding? = null // Use FragmentHomeBinding
+    private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels { HomeViewModelFactory(UserPreferencesManager(requireContext())) }
 
@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
             binding.userName.text = userPreferences.displayName
 
 
-            // Load profile image using Glide
+
             if (userPreferences.photoUrl.isNotEmpty()) {
                 Glide.with(this)
                     .load(userPreferences.photoUrl)
@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null // Clear binding reference to avoid memory leaks
+        _binding = null
     }
 
     companion object {
