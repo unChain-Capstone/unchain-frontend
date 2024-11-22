@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.20"
 }
 
 android {
@@ -55,15 +56,19 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.glide)
 
 
     implementation (libs.androidx.viewpager2)
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
     implementation (libs.androidx.lifecycle.livedata.ktx)
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation(libs.androidx.datastore.preferences)
 
     //Auth
     implementation(libs.firebase.auth)
     implementation(libs.play.services.auth)
+
+    implementation (libs.androidx.datastore)
+    implementation (libs.kotlinx.serialization.json)
+
 }

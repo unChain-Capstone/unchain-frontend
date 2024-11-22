@@ -10,7 +10,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
+    android:background="@color/white"
     tools:context=".ui.home.HomeFragment">
 
     <!-- Header Section -->
@@ -50,8 +50,9 @@
     <TextView
         android:id="@+id/WelcomeTitle"
         android:layout_width="wrap_content"
+        android:textSize="20sp"
         android:layout_height="30dp"
-        android:fontFamily="@font/semi_bold"
+        android:fontFamily="@font/medium"
         android:text="Welcome Back "
         android:textColor="@color/dark_grey"
         app:layout_constraintBottom_toTopOf="@+id/largeTextView"
@@ -61,8 +62,9 @@
     <TextView
         android:id="@+id/userName"
         android:layout_width="wrap_content"
+        android:textSize="20sp"
         android:layout_height="30dp"
-        android:fontFamily="@font/semi_bold"
+        android:fontFamily="@font/medium"
         android:textColor="@color/dark_grey"
         app:layout_constraintStart_toEndOf="@id/WelcomeTitle"
         app:layout_constraintTop_toTopOf="@id/WelcomeTitle"
@@ -74,7 +76,7 @@
         android:layout_height="100dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:fontFamily="@font/semi_bold"
+        android:fontFamily="@font/inter_medium"
         android:gravity="top"
         android:text="@string/Reccomendation"
         android:textAlignment="textStart"
@@ -101,7 +103,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/orange"
+            android:background="@color/gray"
             android:padding="16dp">
 
             <TextView
@@ -132,7 +134,7 @@
                 android:text="Daily Sugar Consumption : "
                 android:gravity="bottom"
                 android:fontFamily="@font/inter"
-                android:textColor="@color/gray">
+                android:textColor="@color/dark_grey">
 
             </TextView>
 
@@ -140,6 +142,7 @@
     </androidx.cardview.widget.CardView>
 
     <Button
+        android:id="@+id/btnAddSugar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button"
