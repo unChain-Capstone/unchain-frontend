@@ -1,5 +1,8 @@
 package com.unchain.ui.home
 
+
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -11,9 +14,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
@@ -25,6 +32,7 @@ import com.unchain.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private var currentCard: View? = null
     private val viewModel: HomeViewModel by viewModels {
         HomeViewModelFactory(
             UserPreferencesManager(requireContext()),
@@ -36,6 +44,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
         setupClickListeners()
+        setupTabs()
+        showDailyCard()
     }
 
     private fun setupObservers() {
@@ -50,9 +60,108 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.sugarPreferences.observe(viewLifecycleOwner) { sugarPreferences ->
-            binding.SugarInput.text = "${sugarPreferences.totalSugarAmount}gr"
+            // Update sugar amount di card yang sedang aktif
+            currentCard?.findViewById<TextView>(R.id.SugarInput)?.let { textView ->
+                textView.text = "${sugarPreferences.totalSugarAmount}gr"
+            }
         }
     }
+
+    private fun setupTabs() {
+        // Set initial state
+        updateTabSelection(binding.tabToday)
+
+        binding.tabToday.setOnClickListener {
+            updateTabSelection(it)
+            showDailyCard()
+        }
+
+        binding.tabWeekly.setOnClickListener {
+            updateTabSelection(it)
+            showWeeklyCard()
+        }
+
+        binding.tabMonthly.setOnClickListener {
+            updateTabSelection(it)
+            showMonthlyCard()
+        }
+    }
+
+    private fun updateTabSelection(selectedTab: View) {
+        // Reset all tabs to unselected state
+        binding.tabToday.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray))
+        binding.tabWeekly.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray))
+        binding.tabMonthly.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray))
+
+        // Set selected tab
+        (selectedTab as TextView).setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+    }
+
+    private fun animateCardChange(newView: View) {
+        val fadeOut = AlphaAnimation(1f, 0f)
+        fadeOut.duration = 150
+        fadeOut.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {}
+            override fun onAnimationEnd(animation: Animation?) {
+                binding.middleCard.removeAllViews()
+                binding.middleCard.addView(newView)
+
+                val fadeIn = AlphaAnimation(0f, 1f)
+                fadeIn.duration = 150
+                binding.middleCard.startAnimation(fadeIn)
+            }
+            override fun onAnimationRepeat(animation: Animation?) {}
+        })
+        binding.middleCard.startAnimation(fadeOut)
+    }
+
+
+
+    private fun showDailyCard() {
+        val dailyCardLayout = LayoutInflater.from(requireContext()).inflate(
+            R.layout.daily_card_layout,
+            binding.middleCard,
+            false
+        )
+        currentCard = dailyCardLayout
+
+        // Update dengan nilai terkini
+        viewModel.sugarPreferences.value?.let { prefs ->
+            dailyCardLayout.findViewById<TextView>(R.id.SugarInput)?.text =
+                "${prefs.totalSugarAmount}gr"
+
+            // Format dan tampilkan tanggal
+            val currentDate = LocalDate.now()
+            val formatter = DateTimeFormatter.ofPattern("dd MMM")
+            dailyCardLayout.findViewById<TextView>(R.id.currentDate)?.text =
+                currentDate.format(formatter)
+        }
+        animateCardChange(dailyCardLayout)
+    }
+
+    private fun showWeeklyCard() {
+        val weeklyView = layoutInflater.inflate(R.layout.weekly_card_layout, null)
+        currentCard = weeklyView
+        // Update dengan nilai terkini
+        viewModel.sugarPreferences.value?.let { prefs ->
+            weeklyView.findViewById<TextView>(R.id.SugarInput)?.text =
+                "${prefs.totalSugarAmount}gr"
+        }
+        animateCardChange(weeklyView)
+    }
+
+    private fun showMonthlyCard() {
+        val monthlyView = layoutInflater.inflate(R.layout.monthly_card_layout, null)
+        currentCard = monthlyView
+        // Update dengan nilai terkini
+        viewModel.sugarPreferences.value?.let { prefs ->
+            monthlyView.findViewById<TextView>(R.id.SugarInput)?.text =
+                "${prefs.totalSugarAmount}gr"
+        }
+        animateCardChange(monthlyView)
+    }
+
+
 
     private fun showAddSugarDialog() {
         val dialog = Dialog(requireContext())
@@ -93,7 +202,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        binding.btnAddSugar.setOnClickListener {
+        binding.btnAdd.setOnClickListener {
             showAddSugarDialog()
         }
     }

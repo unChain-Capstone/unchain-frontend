@@ -2,10 +2,10 @@
 <resources>
     <color name="primary">#000000</color>
     <color name="primary_dark">#FFFFFF</color>
-    <color name="accent">#FFFFFF</color>
+    <color name="accent">#000000</color>
     <color name="gray">#FFCCCCCC</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="black">#FF000000</color>
+    <color name="black">#151515</color>
     <color name="green">#CDF6B4</color>
     <color name="dark_grey">#93A5A7</color>
     <color name="orange">#F6DBB4</color>

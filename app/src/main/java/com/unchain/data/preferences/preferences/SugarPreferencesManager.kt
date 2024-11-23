@@ -80,7 +80,14 @@ class SugarPreferencesManager(private val context: Context) {
     suspend fun addSugarConsumption(foodName: String, sugarAmount: Int) {
         context.sugarDataStore.edit { preferences ->
             val currentAmount = preferences[PreferencesKeys.TOTAL_SUGAR_AMOUNT] ?: 0
-            preferences[PreferencesKeys.TOTAL_SUGAR_AMOUNT] = currentAmount + sugarAmount
+            val newAmount = currentAmount + sugarAmount
+
+            preferences[PreferencesKeys.TOTAL_SUGAR_AMOUNT] = newAmount
+
+            // Pastikan tanggal juga tersimpan
+            if (preferences[PreferencesKeys.CURRENT_DATE] == null) {
+                preferences[PreferencesKeys.CURRENT_DATE] = LocalDate.now().toString()
+            }
 
             val newConsumption = SugarConsumption(
                 foodName = foodName,
