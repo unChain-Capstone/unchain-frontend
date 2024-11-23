@@ -84,10 +84,69 @@
         android:textSize="33sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/WelcomeTitle"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/WelcomeTitle" />
 
-    <!-- card progress-->
+
+    <LinearLayout
+        android:id="@+id/tabContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/largeTextView">
+
+        <!-- Tabs -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tabToday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/semi_bold"
+                android:text="Today"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tabWeekly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/semi_bold"
+                android:text="Weekly"
+                android:textColor="#808080"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tabMonthly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/semi_bold"
+                android:text="Monthly"
+                android:textColor="#808080"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Add Button -->
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:background="@drawable/button"
+            android:backgroundTint="@color/black"
+            android:padding="12dp"
+            android:text="Add +"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+3
+
     <androidx.cardview.widget.CardView
         android:id="@+id/middleCard"
         android:layout_width="0dp"
@@ -97,64 +156,56 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/largeTextView"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/tabContainer"
+        app:layout_constraintVertical_bias="0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/gray"
+            android:background="#151515"
             android:padding="16dp">
 
             <TextView
                 android:id="@+id/textTitle"
                 android:layout_width="200dp"
                 android:layout_height="100dp"
-                android:text="Keep Your Progress"
                 android:fontFamily="@font/inter"
-                android:textColor="@color/black"
-                android:textSize="30sp"/>
+                android:text="Keep Your Progress"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/SugarInput"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
-                android:text="70gr"
-                android:gravity="center"
-                android:textSize="80sp"
                 android:fontFamily="@font/inter_italic"
-                android:textColor="@color/black">
+                android:gravity="center"
+                android:text="0gr"
+                android:textColor="@color/white"
+                android:textSize="80sp">
+
             </TextView>
 
             <TextView
                 android:id="@+id/SugarSubtitle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Daily Sugar Consumption : "
-                android:gravity="bottom"
                 android:fontFamily="@font/inter"
-                android:textColor="@color/dark_grey">
+                android:textSize="10sp"
+                android:gravity="bottom"
+                android:text="Daily Sugar Consumption : "
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="4dp">
 
             </TextView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/btnAddSugar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button"
-        android:padding="16dp"
-        android:text="Add Sugar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/middleCard"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/middleCard"
-        app:layout_constraintTop_toBottomOf="@+id/middleCard"
-        app:layout_constraintVertical_bias="0.1" />
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
