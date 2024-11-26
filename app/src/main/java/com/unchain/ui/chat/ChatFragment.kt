@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.unchain.BuildConfig
 import com.unchain.R
 import com.unchain.api.ChatRequest
@@ -39,18 +40,21 @@ class ChatFragment : Fragment() {
         return binding.root
     }
 
+    val user = FirebaseAuth.getInstance().currentUser
+    val displayName = user?.displayName
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupClickListeners()
 
         // Add initial system message
-        messages.addAll(createInitialMessages())
+        createInitialMessages()
 
         // Add welcome message
         messages.add(Message(
             role = "assistant",
-            content = "Hello! I'm SugarSense, your personal assistant for monitoring daily sugar intake. How can I help you today?"
+            content = "Halo $displayName! I'm SugarSense, your personal assistant for monitoring daily sugar intake. How can I help you today?"
         ))
         chatAdapter.notifyDataSetChanged()
         binding.recyclerView.smoothScrollToPosition(messages.size - 1)
