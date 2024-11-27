@@ -9,5 +9,10 @@
     <color name="green">#CDF6B4</color>
     <color name="dark_grey">#93A5A7</color>
     <color name="orange">#F6DBB4</color>
+    <color name="message_background">#E3F2FD</color>
+    <color name="message_text">#000000</color>
+    <color name="purple_500">#A020F0</color>
+    <color name="bot">#5F5151</color>
+    <color name="red">#EA4335</color>
 
 </resources>

@@ -9,14 +9,22 @@ android {
     namespace = "com.unchain"
     compileSdk = 35
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.unchain"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "OPENROUTER_API_KEY", "\"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\"")
+
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
     }
 
     buildTypes {
@@ -70,5 +78,13 @@ dependencies {
 
     implementation (libs.androidx.datastore)
     implementation (libs.kotlinx.serialization.json)
+
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation ("com.google.android.material:material:1.9.0")
 
 }
