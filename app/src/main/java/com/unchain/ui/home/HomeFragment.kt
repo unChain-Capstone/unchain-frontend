@@ -175,14 +175,16 @@ class HomeFragment : Fragment() {
         dialog.window?.attributes = layoutParams
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val btnClose = dialog.findViewById<ImageButton>(R.id.btnClose)
+        val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
         val btnAdd = dialog.findViewById<Button>(R.id.btnAdd)
         val etName = dialog.findViewById<EditText>(R.id.etName)
         val etSugarAmount = dialog.findViewById<EditText>(R.id.etSugarAmount)
 
-        btnClose.setOnClickListener {
+        btnCancel.setOnClickListener{
             dialog.dismiss()
         }
+
+
 
         btnAdd.setOnClickListener {
             val foodName = etName.text.toString()

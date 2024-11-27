@@ -13,5 +13,6 @@
     <color name="message_text">#000000</color>
     <color name="purple_500">#A020F0</color>
     <color name="bot">#5F5151</color>
+    <color name="red">#EA4335</color>
 
 </resources>
