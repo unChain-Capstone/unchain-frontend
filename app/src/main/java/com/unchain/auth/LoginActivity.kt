@@ -122,12 +122,6 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
                     user?.let {
-
-                        Log.d(TAG, "User Details:")
-                        Log.d(TAG, "UID: ${it.uid}")
-                        Log.d(TAG, "Display Name: ${it.displayName}")
-                        Log.d(TAG, "Email: ${it.email}")
-                        Log.d(TAG, "Photo URL: ${it.photoUrl}")
                         lifecycleScope.launch {
                             userPreferencesManager.saveUser(
                                 UserPreferences(
