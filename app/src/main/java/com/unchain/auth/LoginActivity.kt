@@ -12,6 +12,8 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -61,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    private fun signIn(){
+    private fun signIn() {
         val credentialManager = CredentialManager.create(this)
         val googleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
@@ -80,11 +82,16 @@ class LoginActivity : AppCompatActivity() {
                 )
                 handleSignIn(result)
             } catch (e: GetCredentialException) {
-                Log.d("Error", e.message.toString())
+                Log.e("LoginActivity", "Credential Error", e)
+                // Add fallback sign-in method if needed
+                binding.progressBar.visibility = View.GONE
+            } catch (e: Exception) {
+                Log.e("LoginActivity", "Unexpected Error", e)
                 binding.progressBar.visibility = View.GONE
             }
         }
     }
+
 
 
     private fun handleSignIn(result: GetCredentialResponse) {
@@ -115,6 +122,12 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
                     user?.let {
+
+                        Log.d(TAG, "User Details:")
+                        Log.d(TAG, "UID: ${it.uid}")
+                        Log.d(TAG, "Display Name: ${it.displayName}")
+                        Log.d(TAG, "Email: ${it.email}")
+                        Log.d(TAG, "Photo URL: ${it.photoUrl}")
                         lifecycleScope.launch {
                             userPreferencesManager.saveUser(
                                 UserPreferences(

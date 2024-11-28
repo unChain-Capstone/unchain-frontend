@@ -48,10 +48,10 @@ class ChatFragment : Fragment() {
         setupRecyclerView()
         setupClickListeners()
 
-        // Add initial system message
+
         createInitialMessages()
 
-        // Add welcome message
+
         messages.add(Message(
             role = "assistant",
             content = "Halo $displayName! I'm SugarSense, your personal assistant for monitoring daily sugar intake. How can I help you today?"
@@ -64,7 +64,7 @@ class ChatFragment : Fragment() {
         return listOf(
             Message(
                 role = "system",
-                content = "You are SugarSense, a friendly and knowledgeable personal assistant focused on helping users monitor their daily sugar intake."
+                content = "You are SugarSense, a friendly and knowledgeable personal assistant focused on helping users monitor their daily sugar intake and you create by unchain "
             )
         )
     }
@@ -108,7 +108,7 @@ class ChatFragment : Fragment() {
             try {
                 val request = ChatRequest(
                     model = "nousresearch/hermes-3-llama-3.1-405b:free",
-                    messages = messages.filterNot { it.isLoading } // Filter out loading message
+                    messages = messages.filterNot { it.isLoading }
                 )
 
                 withContext(Dispatchers.IO) {
@@ -147,11 +147,10 @@ class ChatFragment : Fragment() {
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    // Remove loading message
                     messages.removeAt(messages.size - 1)
                     chatAdapter.notifyItemRemoved(messages.size)
 
-                    // Add error message
+
                     messages.add(Message(
                         role = "assistant",
                         content = "Sorry, I encountered an error. Please try again."
