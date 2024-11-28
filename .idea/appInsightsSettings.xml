@@ -10,9 +10,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.unchain" />
-                  <option name="mobileSdkAppId" value="1:360927979038:android:5ef3b28e4b90086f9a300f" />
-                  <option name="projectId" value="testauth-5cd71" />
-                  <option name="projectNumber" value="360927979038" />
+                  <option name="mobileSdkAppId" value="1:742693144827:android:349083638aae97a726085e" />
+                  <option name="projectId" value="unchain-capstone-442410" />
+                  <option name="projectNumber" value="742693144827" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

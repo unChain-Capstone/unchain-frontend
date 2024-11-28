@@ -1,20 +1,28 @@
 {
   "project_info": {
-    "project_number": "360927979038",
-    "project_id": "testauth-5cd71",
-    "storage_bucket": "testauth-5cd71.firebasestorage.app"
+    "project_number": "742693144827",
+    "project_id": "unchain-capstone-442410",
+    "storage_bucket": "unchain-capstone-442410.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:360927979038:android:5ef3b28e4b90086f9a300f",
+        "mobilesdk_app_id": "1:742693144827:android:349083638aae97a726085e",
         "android_client_info": {
           "package_name": "com.unchain"
         }
       },
       "oauth_client": [
         {
-          "client_id": "360927979038-bvsh05tl83t8t3j6qn2niqbqunvsvgvk.apps.googleusercontent.com",
+          "client_id": "742693144827-br9bv5mvahea8u9oa61e80bm8cfcv0d6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unchain",
+            "certificate_hash": "1c554ecf62c80a12773b0894c2f97a7120545add"
+          }
+        },
+        {
+          "client_id": "742693144827-tb9o1q7vghkq6i17m20lb1708qofj9ia.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.unchain",
@@ -22,20 +30,20 @@
           }
         },
         {
-          "client_id": "360927979038-2pl0s345da0lo9bhab77aq60f9d41m9j.apps.googleusercontent.com",
+          "client_id": "742693144827-tnmeh66dv3v5dcv0aajdie62igppce21.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD0Tje6wJEIHPHTKwbXDhkF6KBmPm56IXA"
+          "current_key": "AIzaSyBr6VRFBrRrtX-VPZjF0f_3ga1qww-wy6w"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "360927979038-2pl0s345da0lo9bhab77aq60f9d41m9j.apps.googleusercontent.com",
+              "client_id": "742693144827-tnmeh66dv3v5dcv0aajdie62igppce21.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
