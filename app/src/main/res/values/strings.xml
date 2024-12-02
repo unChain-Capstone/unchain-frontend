@@ -11,4 +11,6 @@
     <string name="edit_title">Edit Profile</string>
     <string name="parent_menu_preferences">Preferences</string>
     <string name="Reccomendation">Did you track your sugar today?</string>
+    <string name="tvFullName">John Doe</string>
+    <string name="tvUserEmail">johndoe@gmail.com</string>
 </resources>
