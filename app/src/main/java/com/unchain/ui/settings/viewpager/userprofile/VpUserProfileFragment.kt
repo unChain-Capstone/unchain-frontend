@@ -6,50 +6,70 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.ViewModelProvider
 import com.unchain.R
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 class VpUserProfileFragment : Fragment() {
 
-    private var param1: String? = null
-    private var param2: String? = null
-
-    private val viewModel: VpUserProfileViewModel by viewModels()
+    private lateinit var viewModel: VpUserProfileViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_vp_user_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_vp_user_profile, container, false)
+
+        viewModel = ViewModelProvider(this)[VpUserProfileViewModel::class.java]
+
+        val button = view.findViewById<Button>(R.id.updateButton)
+        button.setOnClickListener {
+            showUpdateInfoDialog()
+        }
+
+        viewModel.height.observe(viewLifecycleOwner) { height ->
+            // Update TextView dengan data height baru
+            view.findViewById<TextView>(R.id.tvHeightVp).text = height
+        }
+        viewModel.weight.observe(viewLifecycleOwner) { weight ->
+            view.findViewById<TextView>(R.id.tvWeightVp).text = weight
+        }
+        viewModel.dob.observe(viewLifecycleOwner) { dob ->
+            view.findViewById<TextView>(R.id.tvDOBVp).text = dob
+        }
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PhotosFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            VpUserProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun showUpdateInfoDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_update_info, null)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Update Info")
+            .setView(dialogView)
+            .setPositiveButton("Update") { _, _ ->
+                val heightInput = dialogView.findViewById<EditText>(R.id.etHeight)
+                val weightInput = dialogView.findViewById<EditText>(R.id.etWeight)
+                val dobInput = dialogView.findViewById<EditText>(R.id.etDOB)
+
+                // Kirim data ke ViewModel
+                viewModel.updateUserInfo(
+                    newHeight = heightInput.text.toString(),
+                    newWeight = weightInput.text.toString(),
+                    newDOB = dobInput.text.toString()
+                )
             }
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.show()
     }
 }

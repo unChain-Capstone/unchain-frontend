@@ -10,7 +10,120 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Disini -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_corner_settings"
+            >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Full Name" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="21sp"
+                    android:text="@string/tvFullName"
+                    android:textFontWeight="600"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10.6dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Email" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="21sp"
+                    android:text="@string/tvUserEmail"
+                    android:textFontWeight="600"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10.6dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Gender" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="21sp"
+                    android:text="Male"
+                    android:textFontWeight="600"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10.6dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Date of Birth" />
+                <TextView
+                    android:id="@+id/tvDOBVp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="21sp"
+                    android:text="21"
+                    android:textFontWeight="600"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10.6dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Height" />
+                <TextView
+                    android:id="@+id/tvHeightVp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="21sp"
+                    android:text="100cm"
+                    android:textFontWeight="600"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10.6dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Weight" />
+                <TextView
+                    android:id="@+id/tvWeightVp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="21sp"
+                    android:text="53kg"
+                    android:textFontWeight="600"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10.6dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginTop="16dp">
+
+                <Button
+                    android:id="@+id/updateButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:background="@drawable/button"
+                    android:backgroundTint="@color/white"
+                    android:padding="12dp"
+                    android:text="Edit"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+        </LinearLayout>
 
     </ScrollView>
 </LinearLayout>
