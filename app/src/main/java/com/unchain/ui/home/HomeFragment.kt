@@ -40,6 +40,8 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.unchain.data.model.HistoryResponse
+import com.unchain.utils.hideLoading
+import com.unchain.utils.showLoading
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -182,6 +184,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadDailyConsumption() {
+        val loadingDialog = showLoading()
         FirebaseAuth.getInstance().currentUser?.getIdToken(true)
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -190,6 +193,7 @@ class HomeFragment : Fragment() {
                             call: Call<HistoryResponse>,
                             response: Response<HistoryResponse>
                         ) {
+                            loadingDialog.hideLoading()
                             if (response.isSuccessful) {
                                 response.body()?.let { historyResponse ->
                                     if (historyResponse.status) {
@@ -202,6 +206,7 @@ class HomeFragment : Fragment() {
                         }
 
                         override fun onFailure(call: Call<HistoryResponse>, t: Throwable) {
+                            loadingDialog.hideLoading()
                             Log.e("HomeFragment", "Failed to load histories", t)
                         }
                     })
@@ -257,12 +262,12 @@ class HomeFragment : Fragment() {
                 btnFood.setBackgroundResource(R.drawable.button_toggle_selected)
                 btnFood.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
                 btnBeverage.setBackgroundResource(R.drawable.button_toggle_unselected)
-                btnBeverage.setTextColor(ContextCompat.getColor(requireContext(), R.color.pink))
+                btnBeverage.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
             } else {
                 btnBeverage.setBackgroundResource(R.drawable.button_toggle_selected)
                 btnBeverage.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
                 btnFood.setBackgroundResource(R.drawable.button_toggle_unselected)
-                btnFood.setTextColor(ContextCompat.getColor(requireContext(), R.color.pink))
+                btnFood.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
             }
         }
 
@@ -294,43 +299,34 @@ class HomeFragment : Fragment() {
                     val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(dialog.currentFocus?.windowToken, 0)
                     
+                    val loadingDialog = showLoading()
+                    
                     val history = SugarHistory(
                         title = foodName,
                         weight = sugarAmount,
                         isBeverage = isBeverage
                     )
-
+                    
                     ApiClient.apiService.addHistory(history)
                         .enqueue(object : Callback<SugarHistory> {
-                            override fun onResponse(
-                                call: Call<SugarHistory>,
-                                response: Response<SugarHistory>
-                            ) {
+                            override fun onResponse(call: Call<SugarHistory>, response: Response<SugarHistory>) {
+                                loadingDialog.hideLoading()
                                 if (response.isSuccessful) {
-                                    viewModel.addSugarConsumption(foodName, sugarAmount)
+                                    // Handle successful response
                                     dialog.dismiss()
+                                    // Refresh data or show success message
+                                    viewModel.addSugarConsumption(foodName, sugarAmount)
                                     loadDailyConsumption() // Refresh the list
                                     Log.d("HomeFragment", "Successfully saved sugar history")
                                 } else {
-                                    activity?.runOnUiThread {
-                                        Toast.makeText(
-                                            context,
-                                            "Failed to save sugar history",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
+                                    // Handle error
+                                    Toast.makeText(requireContext(), "Failed to add history", Toast.LENGTH_SHORT).show()
                                 }
                             }
 
                             override fun onFailure(call: Call<SugarHistory>, t: Throwable) {
-                                Log.e("HomeFragment", "Failed to save sugar history", t)
-                                activity?.runOnUiThread {
-                                    Toast.makeText(
-                                        context,
-                                        "Error: ${t.message}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
+                                loadingDialog.hideLoading()
+                                Toast.makeText(requireContext(), "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
                             }
                         })
                 }
@@ -344,6 +340,40 @@ class HomeFragment : Fragment() {
         binding.btnAdd.setOnClickListener {
             showAddSugarDialog()
         }
+    }
+
+    private fun deleteHistory(historyId: Int) {
+        val loadingDialog = showLoading()
+        ApiClient.apiService.deleteHistory(historyId)
+            .enqueue(object : Callback<Unit> {
+                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                    loadingDialog.hideLoading()
+                    if (response.isSuccessful) {
+                        // Refresh the list after successful deletion
+                        loadDailyConsumption()
+                        Toast.makeText(
+                            requireContext(),
+                            "History deleted successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Failed to delete history",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Unit>, t: Throwable) {
+                    loadingDialog.hideLoading()
+                    Toast.makeText(
+                        requireContext(),
+                        "Network error: ${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

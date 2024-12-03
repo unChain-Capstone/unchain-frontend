@@ -12,6 +12,7 @@ import java.util.*
 
 class DailyConsumeAdapter : RecyclerView.Adapter<DailyConsumeAdapter.ViewHolder>() {
     private var items: List<SugarHistory> = listOf()
+    private var expandedPosition = -1
 
     fun setItems(newItems: List<SugarHistory>) {
         items = newItems
@@ -26,22 +27,23 @@ class DailyConsumeAdapter : RecyclerView.Adapter<DailyConsumeAdapter.ViewHolder>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.bind(item)
+        holder.bind(item, position)
     }
 
     override fun getItemCount(): Int = items.size
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val tvIcon: TextView = view.findViewById(R.id.tvIcon)
         private val tvName: TextView = view.findViewById(R.id.tvName)
         private val tvWeight: TextView = view.findViewById(R.id.tvWeight)
         private val tvDate: TextView = view.findViewById(R.id.tvDate)
+        private val detailsView: View = view.findViewById(R.id.detailsView) // Assuming you have a details view
 
-        fun bind(item: SugarHistory) {
+        fun bind(item: SugarHistory, position: Int) {
             tvIcon.text = if (item.isBeverage) "☕" else "🍽️"
             tvName.text = item.title
             tvWeight.text = "${item.weight} gr"
-            
+
             // Format the date
             item.createdAt?.let { dateString ->
                 try {
@@ -52,6 +54,15 @@ class DailyConsumeAdapter : RecyclerView.Adapter<DailyConsumeAdapter.ViewHolder>
                 } catch (e: Exception) {
                     tvDate.text = dateString
                 }
+            }
+
+            // Toggle visibility of details
+            val isExpanded = position == expandedPosition
+            detailsView.visibility = if (isExpanded) View.VISIBLE else View.GONE
+
+            itemView.setOnClickListener {
+                expandedPosition = if (isExpanded) -1 else position
+                notifyDataSetChanged()
             }
         }
     }
