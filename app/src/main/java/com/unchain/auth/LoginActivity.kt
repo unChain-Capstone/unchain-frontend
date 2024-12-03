@@ -12,8 +12,6 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -24,10 +22,15 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import com.unchain.R
 import com.unchain.activities.MainActivity
+import com.unchain.data.api.RetrofitClient
+import com.unchain.data.api.UserRegistrationRequest
 import com.unchain.data.preferences.model.UserPreferences
 import com.unchain.data.preferences.preferences.UserPreferencesManager
 import com.unchain.databinding.ActivityLoginBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -116,26 +119,71 @@ class LoginActivity : AppCompatActivity() {
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
+        binding.progressBar.visibility = View.VISIBLE
+        
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
                     user?.let {
-                        lifecycleScope.launch {
-                            userPreferencesManager.saveUser(
-                                UserPreferences(
-                                    userId = it.uid,
-                                    displayName = it.displayName ?: "",
-                                    email = it.email ?: "",
-                                    photoUrl = it.photoUrl?.toString() ?: ""
-                                )
-                            )
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            try {
+                                withContext(Dispatchers.IO) {
+                                    // Get Firebase token
+                                    val token = it.getIdToken(true).await().token
+                                    Log.d(TAG, "Firebase Token: $token")
+
+                                    // Register user to backend
+                                    try {
+                                        val response = RetrofitClient.apiService.registerUser(
+                                            token = "Bearer $token",
+                                            user = UserRegistrationRequest(
+                                                id = it.uid,
+                                                name = it.displayName ?: "",
+                                                email = it.email ?: "",
+                                                photoUrl = it.photoUrl?.toString() ?: ""
+                                            )
+                                        )
+
+                                        withContext(Dispatchers.Main) {
+                                            if (response.isSuccessful) {
+                                                Log.d(TAG, "User registered successfully")
+                                            } else {
+                                                Log.e(TAG, "Failed to register user: ${response.code()} ${response.message()}")
+                                            }
+                                        }
+                                    } catch (e: Exception) {
+                                        withContext(Dispatchers.Main) {
+                                            Log.e(TAG, "Error registering user", e)
+                                        }
+                                    }
+
+                                    // Save user preferences locally
+                                    withContext(Dispatchers.Main) {
+                                        userPreferencesManager.saveUser(
+                                            UserPreferences(
+                                                userId = it.uid,
+                                                displayName = it.displayName ?: "",
+                                                email = it.email ?: "",
+                                                photoUrl = it.photoUrl?.toString() ?: ""
+                                            )
+                                        )
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Error getting token", e)
+                            } finally {
+                                withContext(Dispatchers.Main) {
+                                    binding.progressBar.visibility = View.GONE
+                                    updateUI(user)
+                                }
+                            }
                         }
                     }
-                    updateUI(user)
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    binding.progressBar.visibility = View.GONE
                     updateUI(null)
                 }
             }
