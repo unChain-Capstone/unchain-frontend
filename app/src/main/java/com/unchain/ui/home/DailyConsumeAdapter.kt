@@ -15,7 +15,16 @@ class DailyConsumeAdapter : RecyclerView.Adapter<DailyConsumeAdapter.ViewHolder>
     private var expandedPosition = -1
 
     fun setItems(newItems: List<SugarHistory>) {
-        items = newItems
+        // Filter items untuk hari ini saja
+        val today = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+        items = newItems.filter { history ->
+            history.createdAt?.let { dateString ->
+                val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
+                val date = inputFormat.parse(dateString)
+                val historyDate = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date)
+                historyDate == today
+            } ?: false
+        }
         notifyDataSetChanged()
     }
 
