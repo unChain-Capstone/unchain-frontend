@@ -68,8 +68,13 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
         }
 
-        // Load daily consumption data
-        loadDailyConsumption()
+        // Observe history data
+        viewModel.historyData.observe(viewLifecycleOwner) { histories ->
+            dailyConsumeAdapter.setItems(histories)
+        }
+
+        // Load histories
+        viewModel.loadHistories()
     }
 
     private fun setupObservers() {
@@ -184,34 +189,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadDailyConsumption() {
-        val loadingDialog = showLoading()
-        FirebaseAuth.getInstance().currentUser?.getIdToken(true)
-            ?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    ApiClient.apiService.getHistories().enqueue(object : Callback<HistoryResponse> {
-                        override fun onResponse(
-                            call: Call<HistoryResponse>,
-                            response: Response<HistoryResponse>
-                        ) {
-                            loadingDialog.hideLoading()
-                            if (response.isSuccessful) {
-                                response.body()?.let { historyResponse ->
-                                    if (historyResponse.status) {
-                                        dailyConsumeAdapter.setItems(historyResponse.data)
-                                    } else {
-                                        Log.e("HomeFragment", "API error: ${historyResponse.message}")
-                                    }
-                                }
-                            }
-                        }
-
-                        override fun onFailure(call: Call<HistoryResponse>, t: Throwable) {
-                            loadingDialog.hideLoading()
-                            Log.e("HomeFragment", "Failed to load histories", t)
-                        }
-                    })
-                }
-            }
+        viewModel.loadHistories(forceRefresh = true)
     }
 
     private fun showAddSugarDialog() {
