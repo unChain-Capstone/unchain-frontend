@@ -1,5 +1,8 @@
+@file:Suppress("DEPRECATION")
+
 package com.unchain.ui.home
 
+import android.annotation.SuppressLint
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import android.app.Dialog
@@ -20,7 +23,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -37,9 +39,7 @@ import retrofit2.Response
 import com.unchain.data.model.SugarHistory
 import com.unchain.network.ApiClient
 import android.util.Log
-import com.google.firebase.auth.FirebaseAuth
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.unchain.data.model.HistoryResponse
 import com.unchain.utils.hideLoading
 import com.unchain.utils.showLoading
 
@@ -68,10 +68,16 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
         }
 
-        // Load daily consumption data
-        loadDailyConsumption()
+        // Observe history data
+        viewModel.historyData.observe(viewLifecycleOwner) { histories ->
+            dailyConsumeAdapter.setItems(histories)
+        }
+
+        // Load histories
+        viewModel.loadHistories()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupObservers() {
         viewModel.userPreferences.observe(viewLifecycleOwner) { userPreferences ->
             binding.userName.text = "${userPreferences.displayName}!"
@@ -139,6 +145,7 @@ class HomeFragment : Fragment() {
         binding.middleCard.startAnimation(fadeOut)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showDailyCard() {
         val dailyCardLayout = LayoutInflater.from(requireContext()).inflate(
             R.layout.daily_card_layout,
@@ -161,6 +168,7 @@ class HomeFragment : Fragment() {
         animateCardChange(dailyCardLayout)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showWeeklyCard() {
         val weeklyView = layoutInflater.inflate(R.layout.weekly_card_layout, null)
         currentCard = weeklyView
@@ -168,6 +176,8 @@ class HomeFragment : Fragment() {
         viewModel.sugarPreferences.value?.let { prefs ->
             weeklyView.findViewById<TextView>(R.id.SugarInput)?.text =
                 "${prefs.totalSugarAmount}gr"
+
+
         }
         animateCardChange(weeklyView)
     }
@@ -184,34 +194,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadDailyConsumption() {
-        val loadingDialog = showLoading()
-        FirebaseAuth.getInstance().currentUser?.getIdToken(true)
-            ?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    ApiClient.apiService.getHistories().enqueue(object : Callback<HistoryResponse> {
-                        override fun onResponse(
-                            call: Call<HistoryResponse>,
-                            response: Response<HistoryResponse>
-                        ) {
-                            loadingDialog.hideLoading()
-                            if (response.isSuccessful) {
-                                response.body()?.let { historyResponse ->
-                                    if (historyResponse.status) {
-                                        dailyConsumeAdapter.setItems(historyResponse.data)
-                                    } else {
-                                        Log.e("HomeFragment", "API error: ${historyResponse.message}")
-                                    }
-                                }
-                            }
-                        }
-
-                        override fun onFailure(call: Call<HistoryResponse>, t: Throwable) {
-                            loadingDialog.hideLoading()
-                            Log.e("HomeFragment", "Failed to load histories", t)
-                        }
-                    })
-                }
-            }
+        viewModel.loadHistories(forceRefresh = true)
     }
 
     private fun showAddSugarDialog() {
