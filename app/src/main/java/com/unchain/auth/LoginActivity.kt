@@ -31,6 +31,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import kotlin.math.log
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -128,6 +129,7 @@ class LoginActivity : AppCompatActivity() {
                     val user = auth.currentUser
                     user?.let {
                         lifecycleScope.launch(Dispatchers.Main) {
+
                             try {
                                 withContext(Dispatchers.IO) {
                                     // Get Firebase token
