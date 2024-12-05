@@ -11,4 +11,8 @@
     <string name="edit_title">Edit Profile</string>
     <string name="parent_menu_preferences">Preferences</string>
     <string name="Reccomendation">Did you track your sugar today?</string>
+    <string name="start_tracking_now">Start Tracking Now 🚀</string>
+    <string name="take_your_first_step_towards_managing_your_sugar_intake_today">Take your first step towards managing your sugar intake today 👣</string>
+    <string name="log_in">Log In</string>
+    <string name="register">Register</string>
 </resources>

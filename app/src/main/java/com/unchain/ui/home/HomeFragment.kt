@@ -338,6 +338,9 @@ class HomeFragment : Fragment() {
                                     // Refresh data or show success message
                                     viewModel.addSugarConsumption(foodName, sugarAmount)
                                     loadDailyConsumption() // Refresh the list
+                                    viewModel.userPreferences.value?.userId?.let { userId ->
+                                        viewModel.fetchDashboard(userId)  // Refresh dashboard data
+                                    }
                                     Log.d("HomeFragment", "Successfully saved sugar history")
                                 } else {
                                     // Handle error
