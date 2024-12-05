@@ -1,10 +1,14 @@
 package com.unchain.ui.home
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.unchain.data.model.DashboardData
 import com.unchain.data.model.HistoryResponse
 import com.unchain.data.model.SugarHistory
 import com.unchain.data.preferences.model.SugarConsumption
@@ -21,10 +25,14 @@ class HomeViewModel(
     private val sugarPreferencesManager: SugarPreferencesManager
 ) : ViewModel() {
     val userPreferences = userPreferencesManager.userPreferencesFlow.asLiveData()
+    @RequiresApi(Build.VERSION_CODES.O)
     val sugarPreferences = sugarPreferencesManager.sugarPreferencesFlow.asLiveData()
 
     private val _historyData = MutableLiveData<List<SugarHistory>>()
     val historyData: LiveData<List<SugarHistory>> = _historyData
+
+    private val _dashboardData = MutableLiveData<DashboardData>()
+    val dashboardData: LiveData<DashboardData> = _dashboardData
 
     private var lastFetchTime: Long = 0
     private val FETCH_INTERVAL = 5 * 60 * 1000 // 5 menit dalam milidetik
@@ -33,7 +41,7 @@ class HomeViewModel(
         val currentTime = System.currentTimeMillis()
         if (!forceRefresh && _historyData.value != null && 
             (currentTime - lastFetchTime) < FETCH_INTERVAL) {
-            return // Gunakan data yang sudah ada
+            return
         }
 
         viewModelScope.launch {
@@ -59,12 +67,31 @@ class HomeViewModel(
         }
     }
 
+    fun fetchDashboard(userId: String) {
+        viewModelScope.launch {
+            try {
+                val response = ApiClient.apiService.getDashboard(userId)
+                if (response.isSuccessful) {
+                    response.body()?.let { dashboardResponse ->
+                        Log.d("HomeViewModel", "Dashboard data received: ${dashboardResponse.data}")
+                        _dashboardData.value = dashboardResponse.data
+                    }
+                } else {
+                    Log.e("HomeViewModel", "Error fetching dashboard: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e("HomeViewModel", "Exception fetching dashboard", e)
+            }
+        }
+    }
+
     fun addSugarConsumption(foodName: String, sugarAmount: Int) {
         viewModelScope.launch {
             sugarPreferencesManager.addSugarConsumption(foodName, sugarAmount)
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getDailyHistory(date: String): List<SugarConsumption> {
         return sugarPreferences.value?.dailyHistory?.get(date) ?: emptyList()
     }

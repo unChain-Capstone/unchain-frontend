@@ -2,11 +2,10 @@ package com.unchain.data.model
 
 import kotlinx.serialization.Serializable
 
-
 @Serializable
-data class HistoryResponse(
+data class AddHistoryResponse(
     val status: Boolean,
-    val data: List<SugarHistory>,
+    val data: SugarHistory,
     val message: String,
     val code: Int
 )
