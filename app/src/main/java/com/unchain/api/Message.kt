@@ -1,7 +1,12 @@
 package com.unchain.api
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+
+@Serializable
 data class Message(
     val role: String,
     val content: String,
-    val isLoading: Boolean = false  // Add this parameter
+    @Transient
+    val isLoading: Boolean = false
 )
