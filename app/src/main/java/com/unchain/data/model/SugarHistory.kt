@@ -1,5 +1,9 @@
 package com.unchain.data.model
 
+import kotlinx.serialization.Serializable
+
+
+@Serializable
 data class SugarHistory(
     val id: Int? = null,
     val title: String,

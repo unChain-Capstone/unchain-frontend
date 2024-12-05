@@ -37,6 +37,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.unchain.data.model.SugarHistory
+import com.unchain.data.model.DashboardData
+import com.unchain.data.model.AddHistoryResponse
 import com.unchain.network.ApiClient
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -68,12 +70,7 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
         }
 
-        // Observe history data
-        viewModel.historyData.observe(viewLifecycleOwner) { histories ->
-            dailyConsumeAdapter.setItems(histories)
-        }
-
-        // Load histories
+        // Load data
         viewModel.loadHistories()
     }
 
@@ -87,13 +84,40 @@ class HomeFragment : Fragment() {
                     .apply(RequestOptions().transform(RoundedCorners(10)))
                     .into(binding.profileImage)
             }
+            // Fetch dashboard data when we have the user ID
+            userPreferences.userId?.let { userId ->
+                viewModel.fetchDashboard(userId)
+            }
         }
 
-        viewModel.sugarPreferences.observe(viewLifecycleOwner) { sugarPreferences ->
-            // Update sugar amount di card yang sedang aktif
-            currentCard?.findViewById<TextView>(R.id.SugarInput)?.let { textView ->
-                textView.text = "${sugarPreferences.totalSugarAmount}gr"
+        viewModel.dashboardData.observe(viewLifecycleOwner) { dashboard ->
+            updateDashboardUI(dashboard)
+        }
+
+        viewModel.historyData.observe(viewLifecycleOwner) { histories ->
+            dailyConsumeAdapter.setItems(histories)
+        }
+    }
+
+    private fun updateDashboardUI(dashboard: DashboardData) {
+        Log.d("HomeFragment", "Updating dashboard UI with data: $dashboard")
+        
+        // Update the current card based on which one is showing
+        when (currentCard?.id) {
+            R.id.dailyCard -> {
+                currentCard?.findViewById<TextView>(R.id.SugarInput)?.text = "${dashboard.dailySugar}gr"
             }
+            R.id.weeklyCard -> {
+                currentCard?.findViewById<TextView>(R.id.WeeklySugarInput)?.text = "${dashboard.weeklySugar}gr"
+            }
+            R.id.monthlyCard -> {
+                currentCard?.findViewById<TextView>(R.id.MonthlySugarInput)?.text = "${dashboard.monthlySugar}gr"
+            }
+        }
+        
+        // Update daily consume list
+        dashboard.dailyConsume?.let { consumptions ->
+            dailyConsumeAdapter.setItems(consumptions)
         }
     }
 
@@ -145,51 +169,60 @@ class HomeFragment : Fragment() {
         binding.middleCard.startAnimation(fadeOut)
     }
 
-    @SuppressLint("SetTextI18n")
+
     private fun showDailyCard() {
-        val dailyCardLayout = LayoutInflater.from(requireContext()).inflate(
-            R.layout.daily_card_layout,
-            binding.middleCard,
-            false
-        )
+        val dailyCardLayout = layoutInflater.inflate(R.layout.daily_card_layout, null).apply {
+            id = R.id.dailyCard
+        }
         currentCard = dailyCardLayout
 
-        // Update dengan nilai terkini
-        viewModel.sugarPreferences.value?.let { prefs ->
-            dailyCardLayout.findViewById<TextView>(R.id.SugarInput)?.text =
-                "${prefs.totalSugarAmount}gr"
-
-            // Format dan tampilkan tanggal
-            val currentDate = LocalDate.now()
-            val formatter = DateTimeFormatter.ofPattern("dd MMM")
-            dailyCardLayout.findViewById<TextView>(R.id.currentDate)?.text =
-                currentDate.format(formatter)
+        // Update with dashboard data if available
+        viewModel.dashboardData.value?.let { dashboard ->
+            dailyCardLayout.findViewById<TextView>(R.id.SugarInput)?.text = "${dashboard.dailySugar}gr"
         }
+
+        // Format and show date
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd MMM")
+        dailyCardLayout.findViewById<TextView>(R.id.currentDate)?.text = currentDate.format(formatter)
+
         animateCardChange(dailyCardLayout)
     }
 
-    @SuppressLint("SetTextI18n")
+
     private fun showWeeklyCard() {
-        val weeklyView = layoutInflater.inflate(R.layout.weekly_card_layout, null)
-        currentCard = weeklyView
-        // Update dengan nilai terkini
-        viewModel.sugarPreferences.value?.let { prefs ->
-            weeklyView.findViewById<TextView>(R.id.SugarInput)?.text =
-                "${prefs.totalSugarAmount}gr"
-
-
+        val weeklyView = layoutInflater.inflate(R.layout.weekly_card_layout, null).apply {
+            id = R.id.weeklyCard
         }
+        currentCard = weeklyView
+        
+        // Update with dashboard data if available
+        viewModel.dashboardData.value?.let { dashboard ->
+            weeklyView.findViewById<TextView>(R.id.WeeklySugarInput)?.text = "${dashboard.weeklySugar}gr"
+        }
+
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd MMM")
+        weeklyView.findViewById<TextView>(R.id.currentDate)?.text = currentDate.format(formatter)
+        
         animateCardChange(weeklyView)
     }
 
     private fun showMonthlyCard() {
-        val monthlyView = layoutInflater.inflate(R.layout.monthly_card_layout, null)
-        currentCard = monthlyView
-        // Update dengan nilai terkini
-        viewModel.sugarPreferences.value?.let { prefs ->
-            monthlyView.findViewById<TextView>(R.id.SugarInput)?.text =
-                "${prefs.totalSugarAmount}gr"
+        val monthlyView = layoutInflater.inflate(R.layout.monthly_card_layout, null).apply {
+            id = R.id.monthlyCard
         }
+        currentCard = monthlyView
+        
+        // Update with dashboard data if available
+        viewModel.dashboardData.value?.let { dashboard ->
+            monthlyView.findViewById<TextView>(R.id.MonthlySugarInput)?.text = "${dashboard.monthlySugar}gr"
+        }
+
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd MMM")
+        monthlyView.findViewById<TextView>(R.id.currentDate)?.text = currentDate.format(formatter)
+        
         animateCardChange(monthlyView)
     }
 
@@ -289,10 +322,15 @@ class HomeFragment : Fragment() {
                         weight = sugarAmount,
                         isBeverage = isBeverage
                     )
-                    
+
+                    Log.d("HomeFragment", "Adding SugarHistory: title=$foodName, weight=$sugarAmount, isBeverage=$isBeverage")
+
                     ApiClient.apiService.addHistory(history)
-                        .enqueue(object : Callback<SugarHistory> {
-                            override fun onResponse(call: Call<SugarHistory>, response: Response<SugarHistory>) {
+                        .enqueue(object : Callback<AddHistoryResponse> {
+                            override fun onResponse(
+                                call: Call<AddHistoryResponse>,
+                                response: Response<AddHistoryResponse>
+                            ) {
                                 loadingDialog.hideLoading()
                                 if (response.isSuccessful) {
                                     // Handle successful response
@@ -307,9 +345,10 @@ class HomeFragment : Fragment() {
                                 }
                             }
 
-                            override fun onFailure(call: Call<SugarHistory>, t: Throwable) {
+                            override fun onFailure(call: Call<AddHistoryResponse>, t: Throwable) {
                                 loadingDialog.hideLoading()
                                 Toast.makeText(requireContext(), "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+                                Log.d("HomeFragment", "Network error: ${t.message}")
                             }
                         })
                 }
@@ -325,7 +364,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun deleteHistory(historyId: Int) {
+    /*private fun deleteHistory(historyId: Int) {
         val loadingDialog = showLoading()
         ApiClient.apiService.deleteHistory(historyId)
             .enqueue(object : Callback<Unit> {
@@ -357,7 +396,7 @@ class HomeFragment : Fragment() {
                     ).show()
                 }
             })
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
