@@ -44,7 +44,9 @@ class RecommendationHelper(private val context: Context) {
         try {
             // Create input array with zeros for TF-IDF vector and weeklyIntake at the end
             val inputArray = Array(1) { FloatArray(inputSize) { 0f } }
-            inputArray[0][inputSize - 1] = weeklyIntake
+            // Convert weekly intake to daily average
+            val dailyAverage = weeklyIntake / 7f
+            inputArray[0][inputSize - 1] = dailyAverage
             
             // Create output array for 3 classes (Low, Normal, High)
             val outputArray = Array(1) { FloatArray(3) }
@@ -53,7 +55,12 @@ class RecommendationHelper(private val context: Context) {
             interpreter.run(inputArray, outputArray)
             Log.d("RecommendationHelper", "Inference successful. Output: ${outputArray[0].contentToString()}")
             
-            return outputArray[0]
+            // Add the daily average to the output array for reference
+            val finalOutput = FloatArray(4)
+            System.arraycopy(outputArray[0], 0, finalOutput, 0, 3)
+            finalOutput[3] = dailyAverage
+            
+            return finalOutput
         } catch (e: Exception) {
             Log.e("RecommendationHelper", "Error during inference", e)
             throw e
@@ -61,22 +68,35 @@ class RecommendationHelper(private val context: Context) {
     }
 
     companion object {
+        private const val DAILY_SUGAR_LIMIT = 50f   // Maximum recommended daily sugar intake in grams
+        private const val WEEKLY_SUGAR_LIMIT = 350f // Maximum recommended weekly sugar intake in grams
+
         fun processRecommendations(output: FloatArray): List<RecommendationItem> {
             val sugarLevels = listOf("Low", "Normal", "High")
-            return output.mapIndexed { index, score ->
-                val recommendation = when (sugarLevels[index]) {
-                    "Low" -> "Consider increasing your sugar intake slightly for balanced nutrition"
-                    "Normal" -> "Great job! Your sugar intake is within healthy limits"
-                    "High" -> "Try to reduce your sugar intake to maintain better health"
-                    else -> "Keep monitoring your sugar intake"
-                }
+            val dailyIntake = output[output.size - 1]  // Get the daily intake
+            
+            // Determine sugar level based on daily intake (since we're showing daily view)
+            val (sugarLevel, confidence) = when {
+                dailyIntake > DAILY_SUGAR_LIMIT -> Pair("High", 99.9f)
+                dailyIntake >= DAILY_SUGAR_LIMIT * 0.8f -> Pair("Normal", 95.0f)
+                else -> Pair("Low", 90.0f)
+            }
+            
+            // Get appropriate recommendation based on sugar level
+            val recommendation = when (sugarLevel) {
+                "High" -> "Try to reduce your sugar intake to maintain better health"
+                "Normal" -> "Your sugar intake is within healthy limits, but monitor it closely"
+                else -> "Your sugar intake is below recommended levels"
+            }
+            
+            return listOf(
                 RecommendationItem(
-                    id = index + 1,
-                    sugarLevel = sugarLevels[index],
-                    score = score,
+                    id = sugarLevels.indexOf(sugarLevel) + 1,
+                    sugarLevel = sugarLevel,
+                    score = confidence,
                     recommendation = recommendation
                 )
-            }.sortedByDescending { it.score }
+            )
         }
     }
     
