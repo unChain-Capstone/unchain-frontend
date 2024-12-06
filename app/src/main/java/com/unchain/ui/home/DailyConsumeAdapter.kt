@@ -74,12 +74,6 @@ class DailyConsumeAdapter : RecyclerView.Adapter<DailyConsumeAdapter.ViewHolder>
                         }
                     }
                 }
-                is Consumption -> {
-                    tvIcon.text = "🍪" // Default icon for Consumption
-                    tvName.text = item.title
-                    tvWeight.text = "${item.weight}gr"
-                    tvDate.text = SimpleDateFormat("HH:mm", Locale.US).format(Date())
-                }
             }
 
             // Toggle visibility of details

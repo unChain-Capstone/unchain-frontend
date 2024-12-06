@@ -27,5 +27,6 @@ data class DashboardData(
 @Serializable
 data class Consumption(
     val title: String,
-    val weight: Int
+    val weight: Int,
+    val isBeverage: Boolean = true
 )

@@ -337,7 +337,7 @@ class HomeFragment : Fragment() {
                                     dialog.dismiss()
                                     // Refresh data or show success message
                                     viewModel.addSugarConsumption(foodName, sugarAmount)
-                                    loadDailyConsumption() // Refresh the list
+                                    viewModel.loadHistories(forceRefresh = true) // Force refresh the list
                                     viewModel.userPreferences.value?.userId?.let { userId ->
                                         viewModel.fetchDashboard(userId)  // Refresh dashboard data
                                     }
