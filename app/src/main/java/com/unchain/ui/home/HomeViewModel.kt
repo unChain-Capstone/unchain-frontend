@@ -1,5 +1,6 @@
 package com.unchain.ui.home
 
+import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -14,6 +15,8 @@ import com.unchain.data.model.SugarHistory
 import com.unchain.data.preferences.model.SugarConsumption
 import com.unchain.data.preferences.preferences.SugarPreferencesManager
 import com.unchain.data.preferences.preferences.UserPreferencesManager
+import com.unchain.data.ml.RecommendationHelper
+import com.unchain.data.ml.RecommendationItem
 import com.unchain.network.ApiClient
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -34,6 +37,11 @@ class HomeViewModel(
     private val _dashboardData = MutableLiveData<DashboardData>()
     val dashboardData: LiveData<DashboardData> = _dashboardData
 
+    private val _recommendations = MutableLiveData<List<RecommendationItem>>()
+    val recommendations: LiveData<List<RecommendationItem>> = _recommendations
+
+    private lateinit var recommendationHelper: RecommendationHelper
+
     private var lastFetchTime: Long = 0
     private val FETCH_INTERVAL = 5 * 60 * 1000 // 5 menit dalam milidetik
 
@@ -51,7 +59,7 @@ class HomeViewModel(
                     response: Response<HistoryResponse>
                 ) {
                     if (response.isSuccessful) {
-                        response.body()?.let { historyResponse ->
+                        response.body()?.let { historyResponse -> 
                             if (historyResponse.status) {
                                 _historyData.value = historyResponse.data
                                 lastFetchTime = currentTime
@@ -72,7 +80,7 @@ class HomeViewModel(
             try {
                 val response = ApiClient.apiService.getDashboard(userId)
                 if (response.isSuccessful) {
-                    response.body()?.let { dashboardResponse ->
+                    response.body()?.let { dashboardResponse -> 
                         Log.d("HomeViewModel", "Dashboard data received: ${dashboardResponse.data}")
                         _dashboardData.value = dashboardResponse.data
                     }
@@ -94,5 +102,28 @@ class HomeViewModel(
     @RequiresApi(Build.VERSION_CODES.O)
     fun getDailyHistory(date: String): List<SugarConsumption> {
         return sugarPreferences.value?.dailyHistory?.get(date) ?: emptyList()
+    }
+
+    fun initRecommendationSystem(context: Context) {
+        recommendationHelper = RecommendationHelper(context)
+    }
+
+    fun updateRecommendations(weeklyIntake: Float) {
+        viewModelScope.launch {
+            try {
+                val output = recommendationHelper.getRecommendations(weeklyIntake)
+                val processedRecommendations = RecommendationHelper.processRecommendations(output)
+                _recommendations.value = processedRecommendations
+            } catch (e: Exception) {
+                Log.e("HomeViewModel", "Error getting recommendations", e)
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        if (::recommendationHelper.isInitialized) {
+            recommendationHelper.close()
+        }
     }
 }

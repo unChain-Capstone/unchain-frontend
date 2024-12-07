@@ -44,18 +44,21 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.unchain.utils.hideLoading
 import com.unchain.utils.showLoading
+import com.unchain.adapters.RecommendationAdapter
+import com.unchain.data.ml.RecommendationItem
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private var currentCard: View? = null
+    private lateinit var dailyConsumeAdapter: DailyConsumeAdapter
+    private lateinit var recommendationAdapter: RecommendationAdapter
     private val viewModel: HomeViewModel by viewModels {
         HomeViewModelFactory(
             UserPreferencesManager(requireContext()),
             SugarPreferencesManager(requireContext())
         )
     }
-    private lateinit var dailyConsumeAdapter: DailyConsumeAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,14 +67,42 @@ class HomeFragment : Fragment() {
         setupTabs()
         showDailyCard()
 
+        // Initialize recommendation system
+        viewModel.initRecommendationSystem(requireContext())
+
+        // Setup daily consume adapter
         dailyConsumeAdapter = DailyConsumeAdapter()
         binding.rvDailyConsume.apply {
             adapter = dailyConsumeAdapter
             layoutManager = LinearLayoutManager(context)
         }
 
+        // Setup recommendation adapter
+        recommendationAdapter = RecommendationAdapter { recommendedItem: RecommendationItem ->
+            // Handle recommendation click
+            Toast.makeText(context, "Sugar Level: ${recommendedItem.sugarLevel}", Toast.LENGTH_SHORT).show()
+        }
+        binding.recommendationsRecyclerView.apply {
+            adapter = recommendationAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        }
+
         // Load data
         viewModel.loadHistories()
+        updateRecommendations()
+    }
+
+    private fun updateRecommendations() {
+        // Calculate weekly sugar intake from history
+        viewModel.historyData.value?.let { histories ->
+            val weeklyIntake = histories
+                .take(7)  // Last 7 days
+                .sumOf { it.weight.toDouble() }  // Use weight as sugar intake
+                .toFloat()
+            
+            // Get recommendations based on weekly intake
+            viewModel.updateRecommendations(weeklyIntake)
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -96,6 +127,11 @@ class HomeFragment : Fragment() {
 
         viewModel.historyData.observe(viewLifecycleOwner) { histories ->
             dailyConsumeAdapter.setItems(histories)
+            updateRecommendations()
+        }
+
+        viewModel.recommendations.observe(viewLifecycleOwner) { recommendations ->
+            recommendationAdapter.updateRecommendations(recommendations)
         }
     }
 

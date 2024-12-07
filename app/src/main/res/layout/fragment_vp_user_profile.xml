@@ -24,6 +24,7 @@
                     android:textSize="16sp"
                     android:text="Full Name" />
                 <TextView
+                    android:id="@+id/tvFullName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="21sp"
@@ -38,6 +39,7 @@
                     android:textSize="16sp"
                     android:text="Email" />
                 <TextView
+                    android:id="@+id/tvUserEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="21sp"
