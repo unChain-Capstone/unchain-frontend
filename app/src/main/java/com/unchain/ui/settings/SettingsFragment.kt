@@ -75,11 +75,11 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    /*private fun setupClickListeners() {
+    private fun setupClickListeners() {
         // Edit Profile Button
-        binding.btnEditProfile.setOnClickListener {
-            // TODO: Implement edit profile functionality
-        }
+//        binding.btnEditProfile.setOnClickListener {
+//            // TODO: Implement edit profile functionality
+//        }
 
         // Logout
         binding.root.findViewById<View>(R.id.logout_layout).setOnClickListener {
@@ -94,15 +94,15 @@ class SettingsFragment : Fragment() {
         }
 
         // Notification Switch
-        binding.switchNotification.setOnCheckedChangeListener { _, isChecked ->
-            // TODO: Save notification preference
-        }
+//        binding.switchNotification.setOnCheckedChangeListener { _, isChecked ->
+//            // TODO: Save notification preference
+//        }
 
         // Dark Mode Switch
-        binding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
-            // TODO: Implement dark mode functionality
-        }
-    }*/
+//        binding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
+//            // TODO: Implement dark mode functionality
+//        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
