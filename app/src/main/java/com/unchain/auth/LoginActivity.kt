@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var userPreferencesManager: UserPreferencesManager
 
-    override fun onCreate(savedInstanceState: Bundle?){
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -45,28 +45,28 @@ class LoginActivity : AppCompatActivity() {
         auth = Firebase.auth
         userPreferencesManager = UserPreferencesManager(this)
 
-        // Check if user is already signed in
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            // User is already signed in, go to MainActivity
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        } else {
-            // User needs to sign in
+        // Set up click listeners
+        binding.loginButton.setOnClickListener {
             signIn()
         }
 
-    }
+        binding.registerButton.setOnClickListener {
+            signIn() // For now, both buttons do the same thing
+        }
 
-    private fun updateUI(user: FirebaseUser?) {
-        if (user != null) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+        // Check if user is already signed in, but only if they've clicked a button
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            // Clear the current user to force new login
+            auth.signOut()
         }
     }
 
-
     private fun signIn() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.loginButton.isEnabled = false
+        binding.registerButton.isEnabled = false
+
         val credentialManager = CredentialManager.create(this)
         val googleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
@@ -86,16 +86,19 @@ class LoginActivity : AppCompatActivity() {
                 handleSignIn(result)
             } catch (e: GetCredentialException) {
                 Log.e("LoginActivity", "Credential Error", e)
-                // Add fallback sign-in method if needed
-                binding.progressBar.visibility = View.GONE
+                resetButtons()
             } catch (e: Exception) {
                 Log.e("LoginActivity", "Unexpected Error", e)
-                binding.progressBar.visibility = View.GONE
+                resetButtons()
             }
         }
     }
 
-
+    private fun resetButtons() {
+        binding.progressBar.visibility = View.GONE
+        binding.loginButton.isEnabled = true
+        binding.registerButton.isEnabled = true
+    }
 
     private fun handleSignIn(result: GetCredentialResponse) {
         when (val credential = result.credential) {
@@ -106,20 +109,22 @@ class LoginActivity : AppCompatActivity() {
                         firebaseAuthWithGoogle(googleIdTokenCredential.idToken)
                     } catch (e: GoogleIdTokenParsingException) {
                         Log.e(TAG, "Received an invalid google id token response", e)
+                        resetButtons()
                     }
                 } else {
                     Log.e(TAG, "Unexpected type of credential")
+                    resetButtons()
                 }
             }
             else -> {
                 Log.e(TAG, "Unexpected type of credential")
+                resetButtons()
             }
         }
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        binding.progressBar.visibility = View.VISIBLE
         
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
@@ -183,18 +188,16 @@ class LoginActivity : AppCompatActivity() {
                     }
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    binding.progressBar.visibility = View.GONE
+                    resetButtons()
                     updateUI(null)
                 }
             }
     }
 
-
-
-    override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        updateUI(currentUser)
+    private fun updateUI(user: FirebaseUser?) {
+        if (user != null) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
     }
-
 }

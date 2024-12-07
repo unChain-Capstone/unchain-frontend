@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.time.LocalDate
 
@@ -69,10 +70,10 @@ class SugarPreferencesManager(private val context: Context) {
     private suspend fun getDailyHistory(): Map<String, List<SugarConsumption>> {
         return try {
             val preferences = context.sugarDataStore.data.first()
-            Json.decodeFromString(
-                preferences[PreferencesKeys.DAILY_HISTORY] ?: "{}"
-            )
+            val historyJson = preferences[PreferencesKeys.DAILY_HISTORY] ?: return emptyMap()
+            Json.decodeFromString<Map<String, List<SugarConsumption>>>(historyJson)
         } catch (e: Exception) {
+            e.printStackTrace()
             emptyMap()
         }
     }

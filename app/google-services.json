@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "742693144827-82ple4vd76q2tqagg9d3c95e24o9p9u7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unchain",
+            "certificate_hash": "f12db330cb945704cafc15f0bc25d8040a2754a0"
+          }
+        },
+        {
           "client_id": "742693144827-br9bv5mvahea8u9oa61e80bm8cfcv0d6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
