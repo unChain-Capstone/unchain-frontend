@@ -38,15 +38,14 @@ class RecommendationHelper(private val context: Context) {
         }
     }
 
-    fun getRecommendations(weeklyIntake: Float): FloatArray {
+    fun getRecommendations(dailyIntake: Float): FloatArray {
         val interpreter = interpreter ?: throw IllegalStateException("TFLite interpreter not initialized")
         
         try {
             // Create input array with zeros for TF-IDF vector and weeklyIntake at the end
             val inputArray = Array(1) { FloatArray(inputSize) { 0f } }
-            // Convert weekly intake to daily average
-            val dailyAverage = weeklyIntake / 7f
-            inputArray[0][inputSize - 1] = dailyAverage
+            // Pass the daily intake directly without multiplication
+            inputArray[0][inputSize - 1] = dailyIntake
             
             // Create output array for 3 classes (Low, Normal, High)
             val outputArray = Array(1) { FloatArray(3) }
@@ -58,7 +57,7 @@ class RecommendationHelper(private val context: Context) {
             // Add the daily average to the output array for reference
             val finalOutput = FloatArray(4)
             System.arraycopy(outputArray[0], 0, finalOutput, 0, 3)
-            finalOutput[3] = dailyAverage
+            finalOutput[3] = dailyIntake
             
             return finalOutput
         } catch (e: Exception) {
@@ -69,7 +68,7 @@ class RecommendationHelper(private val context: Context) {
 
     companion object {
         private const val DAILY_SUGAR_LIMIT = 50f   // Maximum recommended daily sugar intake in grams
-        private const val WEEKLY_SUGAR_LIMIT = 350f // Maximum recommended weekly sugar intake in grams
+        private const val WEEKLY_SUGAR_LIMIT = 350f
 
         fun processRecommendations(output: FloatArray): List<RecommendationItem> {
             val sugarLevels = listOf("Low", "Normal", "High")
@@ -77,8 +76,8 @@ class RecommendationHelper(private val context: Context) {
             
             // Determine sugar level based on daily intake (since we're showing daily view)
             val (sugarLevel, confidence) = when {
-                dailyIntake > DAILY_SUGAR_LIMIT -> Pair("High", 99.9f)
-                dailyIntake >= DAILY_SUGAR_LIMIT * 0.8f -> Pair("Normal", 95.0f)
+                dailyIntake >= DAILY_SUGAR_LIMIT -> Pair("High", 99.9f)
+                dailyIntake >= 20f -> Pair("Normal", 95.0f)
                 else -> Pair("Low", 90.0f)
             }
             
