@@ -2,6 +2,14 @@
 <resources>
     //styling font untuk navbar
     <style name="BottomNavigationViewTextStyle">
-        <item name="android:fontFamily">@font/semi_bold</item>
+        <item name="android:fontFamily">@font/medium</item>
+    </style>
+
+    <style name="CustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="textAllCaps">false</item>
+        <item name="tabTextColor">@color/red</item>
+        <item name="android:textColor">@color/red</item>
+        <item name="tabSelectedTextColor">@color/red</item>
     </style>
 </resources>

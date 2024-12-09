@@ -12,18 +12,18 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal"
-        android:background="#F5F5F5"
-        android:padding="4dp"
-        android:elevation="2dp">
+        android:background="#FFFFFF"
+        android:padding="4dp">
 
         <Button
             android:id="@+id/btnFood"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
+            android:fontFamily="@font/medium"
             android:layout_weight="1"
             android:background="@drawable/button_toggle_selected"
-            android:text="🍽️ Food"
+            android:text="@string/food_tabs"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
 
@@ -31,11 +31,12 @@
             android:id="@+id/btnBeverage"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:fontFamily="@font/medium"
             android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/button_toggle_unselected"
-            android:text="☕ Beverages"
-            android:textColor="#FF4081"
+            android:text="@string/beverages_tabs"
+            android:textColor="@color/primary"
             android:textSize="14sp" />
 
     </LinearLayout>
@@ -46,7 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:background="@drawable/text_field"
-        android:hint="Name"
+        android:fontFamily="@font/medium"
+        android:hint="@string/name_product"
         android:imeOptions="actionNext"
         android:singleLine="true"
         android:padding="12dp" />
@@ -57,7 +59,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:background="@drawable/text_field"
-        android:hint="Sugar Amount"
+        android:hint="@string/sugar_amount"
+        android:fontFamily="@font/medium"
         android:imeOptions="actionDone"
         android:singleLine="true"
         android:inputType="numberDecimal"
@@ -73,10 +76,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:fontFamily="@font/medium"
             android:layout_weight="1"
+            android:backgroundTint="@color/red"
             android:background="@drawable/button_cancel"
-            android:text="Cancel"
-            android:textColor="@color/red" />
+            android:text="@string/cancel_button"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btnAdd"
@@ -84,8 +89,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
+            android:fontFamily="@font/medium"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/black"
             android:background="@drawable/button"
-            android:text="Submit" />
+            android:text="@string/submit_button" />
 
     </LinearLayout>
 

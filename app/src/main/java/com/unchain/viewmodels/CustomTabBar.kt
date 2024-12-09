@@ -18,12 +18,12 @@ import com.unchain.databinding.SettingsTabBarBinding
 
 class CustomTabBar(context: Context?, attrs: AttributeSet?) :
     RelativeLayout(context, attrs) {
-        private var binding: SettingsTabBarBinding
-        private lateinit var listTabName: List<String>
-        private lateinit var listTabTv: List<TextView>
-        private var isAnimating = false
-        private var onTabSelectedListener: ((Int) -> Unit)? = null
-        private var selectedIndex = 0
+    private var binding: SettingsTabBarBinding
+    private lateinit var listTabName: List<String>
+    private lateinit var listTabTv: List<TextView>
+    private var isAnimating = false
+    private var onTabSelectedListener: ((Int) -> Unit)? = null
+    private var selectedIndex = 0
 
     init {
         binding = SettingsTabBarBinding.inflate(LayoutInflater.from(context), this, true)
@@ -87,16 +87,20 @@ class CustomTabBar(context: Context?, attrs: AttributeSet?) :
             1f
         )
         gravity = Gravity.CENTER
-//        setTextColor(ContextCompat.getColor(this.context, R.color.black))
         textSize = 12f
         typeface = Typeface.DEFAULT_BOLD
 
-        setTextColor(if (index == selectedIndex) Color.parseColor("#565766") else Color.parseColor("#7D8594"))
+        // Warna default untuk tab yang tidak terpilih (dark grey)
+        val unselectedColor = Color.parseColor("#7D8594")
+        // Warna untuk tab yang terpilih (hitam)
+        val selectedColor = Color.parseColor("#000000")
+
+        setTextColor(if (index == selectedIndex) selectedColor else unselectedColor)
 
         setOnClickListener {
             selectedIndex = index
             listTabTv.forEachIndexed { i, tabTv ->
-                tabTv.setTextColor(if (i == selectedIndex) Color.parseColor("#565766") else Color.parseColor("#7D8594"))
+                tabTv.setTextColor(if (i == selectedIndex) selectedColor else unselectedColor)
             }
             onTabSelected(index)
         }

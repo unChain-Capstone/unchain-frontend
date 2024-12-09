@@ -17,7 +17,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
-import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -94,15 +93,15 @@ class HomeFragment : Fragment() {
 
     private fun updateRecommendations() {
         // Calculate weekly sugar intake from history
-        viewModel.historyData.value?.let { histories ->
-            val weeklyIntake = histories
+        val weeklyIntake = viewModel.historyData.value?.let { histories ->
+            histories
                 .take(7)  // Last 7 days
                 .sumOf { it.weight.toDouble() }  // Use weight as sugar intake
                 .toFloat()
-            
-            // Get recommendations based on weekly intake
-            viewModel.updateRecommendations(weeklyIntake)
-        }
+        } ?: 0f  // Default to 0 if no history data
+        
+        // Get recommendations based on weekly intake
+        viewModel.updateRecommendations(weeklyIntake)
     }
 
     @SuppressLint("SetTextI18n")
@@ -163,17 +162,17 @@ class HomeFragment : Fragment() {
 
         binding.tabToday.setOnClickListener {
             updateTabSelection(it)
-            showDailyCard()
+            animateCardSlide(showDailyCard(), false)
         }
 
         binding.tabWeekly.setOnClickListener {
             updateTabSelection(it)
-            showWeeklyCard()
+            animateCardSlide(showWeeklyCard(), true)
         }
 
         binding.tabMonthly.setOnClickListener {
             updateTabSelection(it)
-            showMonthlyCard()
+            animateCardSlide(showMonthlyCard(), true)
         }
     }
 
@@ -187,26 +186,35 @@ class HomeFragment : Fragment() {
         (selectedTab as TextView).setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
     }
 
-    private fun animateCardChange(newView: View) {
-        val fadeOut = AlphaAnimation(1f, 0f)
-        fadeOut.duration = 150
-        fadeOut.setAnimationListener(object : Animation.AnimationListener {
+    private fun animateCardSlide(newView: View, slideFromRight: Boolean) {
+        val slideOut = android.view.animation.TranslateAnimation(
+            android.view.animation.Animation.RELATIVE_TO_PARENT, 0f,
+            android.view.animation.Animation.RELATIVE_TO_PARENT, if (slideFromRight) -1f else 1f,
+            android.view.animation.Animation.RELATIVE_TO_PARENT, 0f,
+            android.view.animation.Animation.RELATIVE_TO_PARENT, 0f
+        )
+        slideOut.duration = 200
+        slideOut.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation?) {}
             override fun onAnimationEnd(animation: Animation?) {
                 binding.middleCard.removeAllViews()
                 binding.middleCard.addView(newView)
 
-                val fadeIn = AlphaAnimation(0f, 1f)
-                fadeIn.duration = 150
-                binding.middleCard.startAnimation(fadeIn)
+                val slideIn = android.view.animation.TranslateAnimation(
+                    android.view.animation.Animation.RELATIVE_TO_PARENT, if (slideFromRight) 1f else -1f,
+                    android.view.animation.Animation.RELATIVE_TO_PARENT, 0f,
+                    android.view.animation.Animation.RELATIVE_TO_PARENT, 0f,
+                    android.view.animation.Animation.RELATIVE_TO_PARENT, 0f
+                )
+                slideIn.duration = 200
+                binding.middleCard.startAnimation(slideIn)
             }
             override fun onAnimationRepeat(animation: Animation?) {}
         })
-        binding.middleCard.startAnimation(fadeOut)
+        binding.middleCard.startAnimation(slideOut)
     }
 
-
-    private fun showDailyCard() {
+    private fun showDailyCard(): View {
         val dailyCardLayout = layoutInflater.inflate(R.layout.daily_card_layout, null).apply {
             id = R.id.dailyCard
         }
@@ -222,11 +230,10 @@ class HomeFragment : Fragment() {
         val formatter = DateTimeFormatter.ofPattern("dd MMM")
         dailyCardLayout.findViewById<TextView>(R.id.currentDate)?.text = currentDate.format(formatter)
 
-        animateCardChange(dailyCardLayout)
+        return dailyCardLayout
     }
 
-
-    private fun showWeeklyCard() {
+    private fun showWeeklyCard(): View {
         val weeklyView = layoutInflater.inflate(R.layout.weekly_card_layout, null).apply {
             id = R.id.weeklyCard
         }
@@ -241,10 +248,10 @@ class HomeFragment : Fragment() {
         val formatter = DateTimeFormatter.ofPattern("dd MMM")
         weeklyView.findViewById<TextView>(R.id.currentDate)?.text = currentDate.format(formatter)
         
-        animateCardChange(weeklyView)
+        return weeklyView
     }
 
-    private fun showMonthlyCard() {
+    private fun showMonthlyCard(): View {
         val monthlyView = layoutInflater.inflate(R.layout.monthly_card_layout, null).apply {
             id = R.id.monthlyCard
         }
@@ -259,7 +266,7 @@ class HomeFragment : Fragment() {
         val formatter = DateTimeFormatter.ofPattern("dd MMM")
         monthlyView.findViewById<TextView>(R.id.currentDate)?.text = currentDate.format(formatter)
         
-        animateCardChange(monthlyView)
+        return monthlyView
     }
 
     private fun loadDailyConsumption() {

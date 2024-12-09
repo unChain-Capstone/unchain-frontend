@@ -5,9 +5,9 @@
     <color name="accent">#000000</color>
     <color name="gray">#FFCCCCCC</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="black">#151515</color>
+    <color name="black">#1F1F1F</color>
     <color name="green">#CDF6B4</color>
-    <color name="dark_grey">#93A5A7</color>
+    <color name="dark_grey">#BFBFBF</color>
     <color name="orange">#F6DBB4</color>
     <color name="message_background">#E3F2FD</color>
     <color name="message_text">#000000</color>

@@ -10,12 +10,13 @@
 
     <ImageView
         android:id="@+id/userProfile"
-        android:layout_marginTop="77dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/rounded_corner"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:contentDescription="@string/userName"
+        android:src="@drawable/avatar"
         app:circleCrop="true" />
 
     <com.unchain.viewmodels.CustomTabBar
@@ -23,5 +24,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:entries="@array/tabs"
-        android:layout_marginTop="32dp" />
+        android:layout_marginTop="24dp" />
 </LinearLayout>
