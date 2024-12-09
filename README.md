@@ -1,9 +1,5 @@
 # unChain 
 
-<div align="center">
-
- Modern Android Development 
-
 </div>
 
 ## About
@@ -28,21 +24,17 @@ This repository includes the following:
 - ViewBinding: Safe view access
 - Glide: Image loading and caching
 
-## Getting Started
 
-1. Clone the repository
-2. Open in Android Studio
-3. Sync project with Gradle files
-4. Run on your device or emulator
-@+id/SugarInput"
+## Contributor
 
-## Contributing
+<div align="center">
+ 
+### Mobile Development
+| Bangkit ID | Name | Learning Path |
+|------------|------|---------------|
+| A288B4KY3706 | Raya Adinad Jayadi Ahmad | Mobile Development |
+| A346B4KY1959 | Imam Satrio Prakoso | Mobile Development |
 
-Feel free to contribute to this project by:
-- Reporting bugs
-- Suggesting enhancements
-- Creating pull requests
+</div>
 
-## License
 
-This project is licensed under the MIT License.
