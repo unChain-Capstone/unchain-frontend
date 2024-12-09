@@ -23,7 +23,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="@string/parent_menu_preferences"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:fontFamily="@font/semi_bold"
+                android:textColor="@color/black"/>
 
             <!-- Notification Switch -->
             <LinearLayout
@@ -42,6 +44,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/medium"
+                    android:textColor="@color/black"
                     android:layout_marginStart="16dp"
                     android:text="Push Notification" />
 
@@ -69,6 +74,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/medium"
+                    android:textColor="@color/black"
                     android:layout_marginStart="16dp"
                     android:text="Dark Mode" />
 
@@ -97,6 +105,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/medium"
+                    android:textColor="@color/black"
                     android:layout_marginStart="16dp"
                     android:text="Support" />
             </LinearLayout>
@@ -120,6 +131,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/medium"
+                    android:textSize="16sp"
                     android:layout_marginStart="16dp"
                     android:text="Logout"
                     android:textColor="@android:color/holo_red_dark" />

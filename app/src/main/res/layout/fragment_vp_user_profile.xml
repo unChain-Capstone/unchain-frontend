@@ -65,7 +65,7 @@
                     android:fontFamily="@font/medium"
                     android:textColor="@color/dark_grey"
                     android:textSize="18sp"
-                    android:text="Male"
+                    android:text="-"
                     android:layout_marginBottom="10.6dp"/>
 
                 <TextView
@@ -97,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:text="100cm"
+                    android:text="-"
                     android:fontFamily="@font/medium"
                     android:textColor="@color/dark_grey"
                     android:layout_marginBottom="10.6dp"/>
@@ -114,7 +114,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:text="53kg"
+                    android:text="-"
                     android:fontFamily="@font/medium"
                     android:textColor="@color/dark_grey"
                     android:layout_marginBottom="10.6dp"/>
@@ -132,11 +132,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="100dp"
                     android:background="@drawable/button"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="@color/black"
                     android:fontFamily="@font/medium"
-                    android:padding="12dp"
                     android:text="Edit"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>
 
