@@ -3,6 +3,7 @@ package com.unchain.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.unchain.R
@@ -49,7 +50,7 @@ class DailyConsumeAdapter : RecyclerView.Adapter<DailyConsumeAdapter.ViewHolder>
     override fun getItemCount(): Int = items.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val tvIcon: TextView = view.findViewById(R.id.tvIcon)
+        private val tvIcon: ImageView = view.findViewById(R.id.tvIcon)
         private val tvName: TextView = view.findViewById(R.id.tvName)
         private val tvWeight: TextView = view.findViewById(R.id.tvWeight)
         private val tvDate: TextView = view.findViewById(R.id.tvDate)
@@ -58,7 +59,7 @@ class DailyConsumeAdapter : RecyclerView.Adapter<DailyConsumeAdapter.ViewHolder>
         fun bind(item: Any, position: Int) {
             when (item) {
                 is SugarHistory -> {
-                    tvIcon.text = if (item.isBeverage) "☕" else "🍽️"
+                    tvIcon.setImageResource(if (item.isBeverage) R.drawable.drink else R.drawable.food)
                     tvName.text = item.title
                     tvWeight.text = "${item.weight} gr"
 

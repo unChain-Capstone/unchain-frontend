@@ -1,48 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/recommendationContainer"
-    android:layout_width="280dp"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
     android:layout_margin="8dp"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:background="@drawable/rounded_corner"
-    android:elevation="4dp">
+    android:backgroundTint="@color/black"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:fontFamily="@font/medium"
-        android:textColor="@android:color/black"/>
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/scoreText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/inter_italic"
-        android:textSize="14sp"
-        android:textColor="@color/dark_grey"/>
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/medium"
+            android:text="Normal"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/scoreText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/semi_bold"
+            android:text="Confidence: 100%"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/recommendationText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/medium"
-        android:textSize="14sp"
-        android:textColor="@android:color/black"/>
-
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="end"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_chevron_right"
-        app:tint="@color/dark_grey"/>
+        android:fontFamily="@font/inter"
+        android:text="@string/rec_desc"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
 </LinearLayout>

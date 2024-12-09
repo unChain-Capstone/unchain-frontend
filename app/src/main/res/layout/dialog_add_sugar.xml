@@ -23,7 +23,7 @@
             android:fontFamily="@font/medium"
             android:layout_weight="1"
             android:background="@drawable/button_toggle_selected"
-            android:text="🍽️ Food"
+            android:text="Food"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
 
@@ -35,8 +35,8 @@
             android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/button_toggle_unselected"
-            android:text="☕ Beverages"
-            android:textColor="#FF4081"
+            android:text="Beverages"
+            android:textColor="@color/primary"
             android:textSize="14sp" />
 
     </LinearLayout>
