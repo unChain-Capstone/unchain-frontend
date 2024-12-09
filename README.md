@@ -34,7 +34,7 @@ This repository includes the following:
 2. Open in Android Studio
 3. Sync project with Gradle files
 4. Run on your device or emulator
-
+@+id/SugarInput"
 
 ## Contributing
 
