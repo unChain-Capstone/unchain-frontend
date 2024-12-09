@@ -4,27 +4,26 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="24dp">
 
     <ImageView
         android:id="@+id/imageOnboarding"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginBottom="32dp" />
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="32dp"
+        android:contentDescription="@string/onboarding_image"
+        android:scaleType="fitCenter" />
 
-    <TextView
-        android:id="@+id/textTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textDescription"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/medium"
         android:gravity="center"
-        android:textSize="16sp" />
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:lineSpacingMultiplier="1.2" />
 
 </LinearLayout>

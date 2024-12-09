@@ -21,9 +21,10 @@
 
             <ImageView
                 android:id="@+id/tvIcon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
+                android:contentDescription="@string/icon"
                 android:gravity="center"
                 android:src="@drawable/food" />
 
@@ -41,7 +42,7 @@
                     android:textColor="@color/dark_grey"
                     android:fontFamily="@font/semi_bold"
                     android:textSize="16sp"
-                    android:text="20gr" />
+                    android:text="@string/history_weight" />
 
                 <TextView
                     android:id="@+id/tvName"
@@ -50,7 +51,7 @@
                     android:textColor="@color/white"
                     android:fontFamily="@font/semi_bold"
                     android:textSize="20sp"
-                    android:text="Food Name" />
+                    android:text="@string/food_name" />
 
             </LinearLayout>
 
@@ -61,7 +62,7 @@
                 android:textColor="@color/dark_grey"
                 android:fontFamily="@font/semi_bold"
                 android:textSize="14sp"
-                android:text="23 Nov" />
+                android:text="@string/date_history" />
 
         </LinearLayout>
 
@@ -78,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#CCCCCC"
                 android:textSize="14sp"
-                android:text="Additional details here" />
+                android:text="@string/history_card" />
         </LinearLayout>
 
     </LinearLayout>

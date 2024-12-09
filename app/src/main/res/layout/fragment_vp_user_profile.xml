@@ -24,7 +24,7 @@
                     android:textSize="16sp"
                     android:fontFamily="@font/semi_bold"
                     android:textColor="@color/black"
-                    android:text="Full Name" />
+                    android:text="@string/full_name" />
                 <TextView
                     android:id="@+id/tvFullName"
                     android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                     android:textSize="16sp"
                     android:fontFamily="@font/semi_bold"
                     android:textColor="@color/black"
-                    android:text="Email" />
+                    android:text="@string/email" />
                 <TextView
                     android:id="@+id/tvUserEmail"
                     android:layout_width="match_parent"
@@ -58,14 +58,14 @@
                     android:textSize="16sp"
                     android:fontFamily="@font/semi_bold"
                     android:textColor="@color/black"
-                    android:text="Gender" />
+                    android:text="@string/gender" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/medium"
                     android:textColor="@color/dark_grey"
                     android:textSize="18sp"
-                    android:text="-"
+                    android:text="@string/tbd"
                     android:layout_marginBottom="10.6dp"/>
 
                 <TextView
@@ -74,13 +74,13 @@
                     android:fontFamily="@font/semi_bold"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    android:text="Date of Birth" />
+                    android:text="@string/date_birth" />
                 <TextView
                     android:id="@+id/tvDOBVp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:text="21"
+                    android:text="@string/tbd"
                     android:fontFamily="@font/medium"
                     android:textColor="@color/dark_grey"
                     android:layout_marginBottom="10.6dp"/>
@@ -91,13 +91,13 @@
                     android:textColor="@color/black"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:text="Height" />
+                    android:text="@string/height" />
                 <TextView
                     android:id="@+id/tvHeightVp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:text="-"
+                    android:text="@string/tbd"
                     android:fontFamily="@font/medium"
                     android:textColor="@color/dark_grey"
                     android:layout_marginBottom="10.6dp"/>
@@ -108,13 +108,13 @@
                     android:textColor="@color/black"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:text="Weight" />
+                    android:text="@string/weight" />
                 <TextView
                     android:id="@+id/tvWeightVp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:text="-"
+                    android:text="@string/tbd"
                     android:fontFamily="@font/medium"
                     android:textColor="@color/dark_grey"
                     android:layout_marginBottom="10.6dp"/>
@@ -134,7 +134,7 @@
                     android:background="@drawable/button"
                     android:backgroundTint="@color/black"
                     android:fontFamily="@font/medium"
-                    android:text="Edit"
+                    android:text="@string/edit_button"
                     android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>

@@ -10,20 +10,20 @@
         android:id="@+id/etHeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Height (e.g., 170cm)" />
+        android:hint="@string/enter_height" />
 
     <EditText
         android:id="@+id/etWeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Weight (e.g., 70kg)"
+        android:hint="@string/enter_weight"
         android:layout_marginTop="8dp" />
 
     <EditText
         android:id="@+id/etDOB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Date of Birth (e.g., 2000-01-01)"
+        android:hint="@string/enter_date"
         android:layout_marginTop="8dp" />
 
 </LinearLayout>

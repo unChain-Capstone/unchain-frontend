@@ -76,9 +76,9 @@ class RecommendationHelper(private val context: Context) {
             
 
             val (sugarLevel, confidence) = when {
-                dailyIntake >= DAILY_SUGAR_LIMIT -> Pair("High", 99.9f)
-                dailyIntake >= 20f -> Pair("Normal", 95.0f)
-                else -> Pair("Low", 90.0f)
+                dailyIntake >= DAILY_SUGAR_LIMIT -> Pair("High", 99f)
+                dailyIntake >= 20f -> Pair("Normal", 95f)
+                else -> Pair("Low", 90f)
             }
             
 

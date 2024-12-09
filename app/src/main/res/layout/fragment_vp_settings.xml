@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,6 +40,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:contentDescription="@string/notification_icon"
                     android:src="@drawable/ic_notification_outlined" />
 
                 <TextView
@@ -48,12 +51,13 @@
                     android:fontFamily="@font/medium"
                     android:textColor="@color/black"
                     android:layout_marginStart="16dp"
-                    android:text="Push Notification" />
+                    android:text="@string/notification" />
 
                 <Switch
                     android:id="@+id/switch_notification"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
             </LinearLayout>
 
             <!-- Dark Mode Switch -->
@@ -68,6 +72,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:contentDescription="@string/dark_mode_icon"
                     android:src="@drawable/ic_dark_mode_outlined" />
 
                 <TextView
@@ -78,12 +83,13 @@
                     android:fontFamily="@font/medium"
                     android:textColor="@color/black"
                     android:layout_marginStart="16dp"
-                    android:text="Dark Mode" />
+                    android:text="@string/dark_mode" />
 
                 <Switch
                     android:id="@+id/switch_dark_mode"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
             </LinearLayout>
 
             <!-- Support Option -->
@@ -94,11 +100,13 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:padding="8dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:contentDescription="@string/suppor_icon"
                     android:src="@drawable/ic_help_outlined"/>
 
                 <TextView
@@ -109,7 +117,7 @@
                     android:fontFamily="@font/medium"
                     android:textColor="@color/black"
                     android:layout_marginStart="16dp"
-                    android:text="Support" />
+                    android:text="@string/support" />
             </LinearLayout>
 
             <!-- Logout Option -->
@@ -120,11 +128,13 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:padding="8dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:contentDescription="@string/logout_icon"
                     android:src="@drawable/ic_exit_outlined"/>
 
                 <TextView
@@ -134,7 +144,7 @@
                     android:fontFamily="@font/medium"
                     android:textSize="16sp"
                     android:layout_marginStart="16dp"
-                    android:text="Logout"
+                    android:text="@string/logout"
                     android:textColor="@android:color/holo_red_dark" />
             </LinearLayout>
 

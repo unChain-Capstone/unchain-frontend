@@ -22,19 +22,19 @@ class OnboardingActivity : AppCompatActivity() {
 
     private val onboardingPages = listOf(
         OnboardingPage(
-            R.drawable.group,
-            "Welcome",
-            "Welcome to our amazing app!"
+            R.drawable.onboarding1,
+            "",
+            "Track your daily sugar intake with precision and take control of your health journey one measurement at a time"
         ),
         OnboardingPage(
-            R.drawable.group,
-            "Features",
-            "Discover all the amazing features"
+            R.drawable.onboarding2,
+            "",
+            "Get personalized insights and recommendations based on your consumption patterns to make informed dietary choices"
         ),
         OnboardingPage(
-            R.drawable.group,
-            "Get Started",
-            "Let's begin your journey"
+            R.drawable.onboarding3,
+            "",
+            "Join a community of health-conscious individuals and start your path to a balanced lifestyle today"
         )
     )
 
@@ -112,6 +112,17 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun updateButtonText(position: Int) {
-        binding.buttonNext.text = if (position == onboardingPages.size - 1) "Sign In With Google" else "Get Started"
+        binding.buttonNext.apply {
+            if (position == onboardingPages.size - 1) {
+                text = getString(R.string.sign_in_with_google)
+                setCompoundDrawablesWithIntrinsicBounds(R.drawable.google_small, 0, 0, 0)
+                gravity = android.view.Gravity.CENTER
+                compoundDrawablePadding = resources.getDimensionPixelSize(R.dimen.google_icon_padding)
+            } else {
+                text = getString(R.string.get_started)
+                setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                gravity = android.view.Gravity.CENTER
+            }
+        }
     }
 }

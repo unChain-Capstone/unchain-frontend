@@ -14,7 +14,6 @@ class OnboardingAdapter(private val pages: List<OnboardingPage>) :
 
         fun bind(page: OnboardingPage) {
             binding.imageOnboarding.setImageResource(page.image)
-            binding.textTitle.text = page.title
             binding.textDescription.text = page.description
         }
     }

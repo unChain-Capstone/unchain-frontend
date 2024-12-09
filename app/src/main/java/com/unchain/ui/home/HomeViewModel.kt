@@ -108,6 +108,17 @@ class HomeViewModel(
         recommendationHelper = RecommendationHelper(context)
     }
 
+    private fun getDefaultRecommendation(): List<RecommendationItem> {
+        return listOf(
+            RecommendationItem(
+                id = 1,
+                sugarLevel = "Normal",
+                score = 1.0f,
+                recommendation = "No data available. This is a default recommendation."
+            )
+        )
+    }
+
     fun updateRecommendations(weeklyIntake: Float) {
         viewModelScope.launch {
             try {
@@ -116,6 +127,7 @@ class HomeViewModel(
                 _recommendations.value = processedRecommendations
             } catch (e: Exception) {
                 Log.e("HomeViewModel", "Error getting recommendations", e)
+                _recommendations.value = getDefaultRecommendation()
             }
         }
     }
