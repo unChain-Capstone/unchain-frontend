@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/dark_grey"
                     android:fontFamily="@font/semi_bold"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:text="@string/history_weight" />
 
                 <TextView
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:fontFamily="@font/semi_bold"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:text="@string/food_name" />
 
             </LinearLayout>
