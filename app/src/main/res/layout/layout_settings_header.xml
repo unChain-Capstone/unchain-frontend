@@ -23,5 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:entries="@array/tabs"
-        android:layout_marginTop="32dp" />
+        android:layout_marginTop="32dp"
+        app:tabTextAppearance="@style/CustomTabTextAppearance"
+        app:tabTextColor="@color/red"
+        app:tabSelectedTextColor="@color/red" />
 </LinearLayout>
