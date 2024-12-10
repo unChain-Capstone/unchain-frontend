@@ -11,6 +11,7 @@ import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.NoCredentialException
 import androidx.lifecycle.lifecycleScope
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -84,12 +85,43 @@ class LoginActivity : AppCompatActivity() {
                     context = this@LoginActivity,
                 )
                 handleSignIn(result)
+            } catch (e: NoCredentialException) {
+                Log.d("LoginActivity", "No saved credentials found, proceeding with fresh login")
+                // When no credentials are found, continue with fresh Google Sign-In
+                try {
+                    val freshResult: GetCredentialResponse = credentialManager.getCredential(
+                        request = GetCredentialRequest.Builder()
+                            .addCredentialOption(GetGoogleIdOption.Builder()
+                                .setFilterByAuthorizedAccounts(false)
+                                .setServerClientId(getString(R.string.web_id))
+                                .build())
+                            .build(),
+                        context = this@LoginActivity
+                    )
+                    handleSignIn(freshResult)
+                } catch (e: Exception) {
+                    Log.e("LoginActivity", "Fresh login attempt failed", e)
+                    withContext(Dispatchers.Main) {
+                        resetButtons()
+                        // Show error message to user
+                        binding.errorText.text = "Unable to sign in. Please try again."
+                        binding.errorText.visibility = View.VISIBLE
+                    }
+                }
             } catch (e: GetCredentialException) {
                 Log.e("LoginActivity", "Credential Error", e)
-                resetButtons()
+                withContext(Dispatchers.Main) {
+                    resetButtons()
+                    binding.errorText.text = "Sign in failed. Please try again."
+                    binding.errorText.visibility = View.VISIBLE
+                }
             } catch (e: Exception) {
                 Log.e("LoginActivity", "Unexpected Error", e)
-                resetButtons()
+                withContext(Dispatchers.Main) {
+                    resetButtons()
+                    binding.errorText.text = "An unexpected error occurred. Please try again."
+                    binding.errorText.visibility = View.VISIBLE
+                }
             }
         }
     }
