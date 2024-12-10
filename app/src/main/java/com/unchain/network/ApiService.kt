@@ -18,8 +18,11 @@ interface ApiService {
     @GET("api/v1/users/info")
     fun getProfile(): Call<UserProfileResponse>
 
-    @PUT("api/v1/users")
-    fun updateProfile(@Body userInfo: UpdateProfile): Call<UpdateHistoryResponse>
+    @PUT("api/v1/users/{userId}")
+    fun updateProfile(
+        @Path("userId") userId: String,
+        @Body userInfo: UpdateProfile
+    ): Call<UpdateHistoryResponse>
 
     @POST("api/v1/users")
     fun insertUser(@Body userInfo: UpdateProfile): Call<UpdateHistoryResponse>

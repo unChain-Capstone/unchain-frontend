@@ -72,7 +72,11 @@ class HomeFragment : Fragment() {
         viewModel.initRecommendationSystem(requireContext())
 
         // Setup daily consume adapter
-        dailyConsumeAdapter = DailyConsumeAdapter()
+        dailyConsumeAdapter = DailyConsumeAdapter(
+            onDeleteClick = { historyId ->
+                deleteHistory(historyId)
+            }
+        )
         binding.rvDailyConsume.apply {
             adapter = dailyConsumeAdapter
             layoutManager = LinearLayoutManager(context)
@@ -417,7 +421,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    /*private fun deleteHistory(historyId: Int) {
+    private fun deleteHistory(historyId: Int) {
         val loadingDialog = showLoading()
         ApiClient.apiService.deleteHistory(historyId)
             .enqueue(object : Callback<Unit> {
@@ -449,7 +453,7 @@ class HomeFragment : Fragment() {
                     ).show()
                 }
             })
-    }*/
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
