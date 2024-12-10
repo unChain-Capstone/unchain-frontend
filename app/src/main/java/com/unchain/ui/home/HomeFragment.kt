@@ -25,6 +25,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
@@ -45,6 +46,7 @@ import com.unchain.utils.hideLoading
 import com.unchain.utils.showLoading
 import com.unchain.adapters.RecommendationAdapter
 import com.unchain.data.ml.RecommendationItem
+import com.unchain.ui.notification.NotificationFragment
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -70,7 +72,11 @@ class HomeFragment : Fragment() {
         viewModel.initRecommendationSystem(requireContext())
 
         // Setup daily consume adapter
-        dailyConsumeAdapter = DailyConsumeAdapter()
+        dailyConsumeAdapter = DailyConsumeAdapter(
+            onDeleteClick = { historyId ->
+                deleteHistory(historyId)
+            }
+        )
         binding.rvDailyConsume.apply {
             adapter = dailyConsumeAdapter
             layoutManager = LinearLayoutManager(context)
@@ -405,12 +411,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        binding.btnAdd.setOnClickListener {
-            showAddSugarDialog()
+        binding.apply {
+            notificationIcon.setOnClickListener {
+                findNavController().navigate(R.id.action_navigation_home_to_notificationFragment)
+            }
+            btnAdd.setOnClickListener {
+                showAddSugarDialog()
+            }
         }
     }
 
-    /*private fun deleteHistory(historyId: Int) {
+    private fun deleteHistory(historyId: Int) {
         val loadingDialog = showLoading()
         ApiClient.apiService.deleteHistory(historyId)
             .enqueue(object : Callback<Unit> {
@@ -442,7 +453,7 @@ class HomeFragment : Fragment() {
                     ).show()
                 }
             })
-    }*/
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

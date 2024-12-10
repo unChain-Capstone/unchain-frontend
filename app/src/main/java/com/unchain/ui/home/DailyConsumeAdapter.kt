@@ -12,14 +12,16 @@ import com.unchain.data.model.Consumption
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DailyConsumeAdapter : RecyclerView.Adapter<DailyConsumeAdapter.ViewHolder>() {
+class DailyConsumeAdapter(
+    private val onDeleteClick: (Int) -> Unit = {}
+) : RecyclerView.Adapter<DailyConsumeAdapter.ViewHolder>() {
     private var items: List<Any> = listOf()
     private var expandedPosition = -1
 
     fun setItems(newItems: List<Any>) {
         items = when {
             newItems.firstOrNull() is SugarHistory -> {
-                // Filter SugarHistory items for today only
+
                 val today = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
                 (newItems as List<SugarHistory>).filter { history ->
                     history.createdAt?.let { dateString ->
@@ -55,6 +57,7 @@ class DailyConsumeAdapter : RecyclerView.Adapter<DailyConsumeAdapter.ViewHolder>
         private val tvWeight: TextView = view.findViewById(R.id.tvWeight)
         private val tvDate: TextView = view.findViewById(R.id.tvDate)
         private val detailsView: View = view.findViewById(R.id.detailsView)
+        private val btnDelete: View = view.findViewById(R.id.btnDelete)
 
         fun bind(item: Any, position: Int) {
             when (item) {
@@ -73,6 +76,11 @@ class DailyConsumeAdapter : RecyclerView.Adapter<DailyConsumeAdapter.ViewHolder>
                         } catch (e: Exception) {
                             tvDate.text = dateString
                         }
+                    }
+
+                    // Set delete button click listener
+                    btnDelete.setOnClickListener {
+                        item.id?.let { id -> onDeleteClick(id) }
                     }
                 }
             }

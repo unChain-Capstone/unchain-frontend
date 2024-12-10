@@ -32,7 +32,6 @@ object ApiClient {
                     requestBuilder.header("Authorization", "Bearer $it")
                 }
             } catch (e: Exception) {
-                // Handle token retrieval failure
                 e.printStackTrace()
             }
         }

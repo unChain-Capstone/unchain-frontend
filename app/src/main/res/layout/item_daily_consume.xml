@@ -21,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/tvIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/icon"
                 android:gravity="center"
@@ -60,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/dark_grey"
+                android:layout_gravity="center"
                 android:fontFamily="@font/semi_bold"
                 android:textSize="14sp"
                 android:text="@string/date_history" />
@@ -80,6 +81,17 @@
                 android:textColor="#CCCCCC"
                 android:textSize="14sp"
                 android:text="@string/history_card" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Delete"
+                android:textColor="@color/white"
+                android:backgroundTint="#FF4444"
+                android:paddingHorizontal="16dp"
+                android:minHeight="36dp" />
         </LinearLayout>
 
     </LinearLayout>

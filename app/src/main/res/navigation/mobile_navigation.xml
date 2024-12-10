@@ -8,13 +8,24 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.unchain.ui.home.HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_navigation_home_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/navigation_chat"
         android:name="com.unchain.ui.chat.ChatFragment"
         tools:layout="@layout/fragment_chat" />
+
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.unchain.ui.settings.SettingsFragment"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.unchain.ui.notification.NotificationFragment"
+        tools:layout="@layout/fragment_notification" />
 </navigation>
