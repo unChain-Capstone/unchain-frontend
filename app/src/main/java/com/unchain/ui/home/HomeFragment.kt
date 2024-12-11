@@ -41,12 +41,14 @@ import com.unchain.data.model.DashboardData
 import com.unchain.data.model.AddHistoryResponse
 import com.unchain.network.ApiClient
 import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.unchain.utils.hideLoading
 import com.unchain.utils.showLoading
 import com.unchain.adapters.RecommendationAdapter
 import com.unchain.data.ml.RecommendationItem
-import com.unchain.ui.notification.NotificationFragment
+import kotlinx.coroutines.launch
+
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -63,14 +65,20 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupObservers()
         setupClickListeners()
         setupTabs()
+        setupObservers()
+        setupRecyclerViews()
         showDailyCard()
-
+        loadDailyConsumption()
+        viewModel.fetchDashboard(viewModel.userPreferences.value?.userId ?: "")
+        
         // Initialize recommendation system
         viewModel.initRecommendationSystem(requireContext())
+        updateRecommendations()
+    }
 
+    private fun setupRecyclerViews() {
         // Setup daily consume adapter
         dailyConsumeAdapter = DailyConsumeAdapter(
             onDeleteClick = { historyId ->
@@ -91,18 +99,14 @@ class HomeFragment : Fragment() {
             adapter = recommendationAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
-
-        // Load data
-        viewModel.loadHistories()
-        updateRecommendations()
     }
 
     private fun updateRecommendations() {
         // Calculate weekly sugar intake from history
         val weeklyIntake = viewModel.historyData.value?.let { histories ->
             histories
-                .take(7)  // Last 7 days
-                .sumOf { it.weight.toDouble() }  // Use weight as sugar intake
+                .take(7)
+                .sumOf { it.weight.toDouble() }
                 .toFloat()
         } ?: 0f  // Default to 0 if no history data
         
@@ -146,24 +150,34 @@ class HomeFragment : Fragment() {
         // Update the current card based on which one is showing
         when (currentCard?.id) {
             R.id.dailyCard -> {
-                currentCard?.findViewById<TextView>(R.id.SugarInput)?.text = "${dashboard.dailySugar}gr"
+                binding.middleCard.findViewById<TextView>(R.id.SugarInput)?.text = "${dashboard.dailySugar}gr"
+                // Update date
+                val currentDate = LocalDate.now()
+                val formatter = DateTimeFormatter.ofPattern("dd MMM")
+                binding.middleCard.findViewById<TextView>(R.id.currentDate)?.text = currentDate.format(formatter)
             }
             R.id.weeklyCard -> {
-                currentCard?.findViewById<TextView>(R.id.WeeklySugarInput)?.text = "${dashboard.weeklySugar}gr"
+                binding.middleCard.findViewById<TextView>(R.id.WeeklySugarInput)?.text = "${dashboard.weeklySugar}gr"
+                // Update date
+                val currentDate = LocalDate.now()
+                val formatter = DateTimeFormatter.ofPattern("dd MMM")
+                binding.middleCard.findViewById<TextView>(R.id.currentDate)?.text = currentDate.format(formatter)
             }
             R.id.monthlyCard -> {
-                currentCard?.findViewById<TextView>(R.id.MonthlySugarInput)?.text = "${dashboard.monthlySugar}gr"
+                binding.middleCard.findViewById<TextView>(R.id.MonthlySugarInput)?.text = "${dashboard.monthlySugar}gr"
+                // Update date
+                val currentDate = LocalDate.now()
+                val formatter = DateTimeFormatter.ofPattern("dd MMM")
+                binding.middleCard.findViewById<TextView>(R.id.currentDate)?.text = currentDate.format(formatter)
             }
         }
-        
-        // Update daily consume list
+
         dashboard.dailyConsume?.let { consumptions ->
             dailyConsumeAdapter.setItems(consumptions)
         }
     }
 
     private fun setupTabs() {
-        // Set initial state
         updateTabSelection(binding.tabToday)
 
         binding.tabToday.setOnClickListener {
@@ -230,13 +244,14 @@ class HomeFragment : Fragment() {
         viewModel.dashboardData.value?.let { dashboard ->
             dailyCardLayout.findViewById<TextView>(R.id.SugarInput)?.text = "${dashboard.dailySugar}gr"
         }
-
+        
         // Format and show date
         val currentDate = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("dd MMM")
         dailyCardLayout.findViewById<TextView>(R.id.currentDate)?.text = currentDate.format(formatter)
 
         return dailyCardLayout
+
     }
 
     private fun showWeeklyCard(): View {
@@ -276,7 +291,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadDailyConsumption() {
-        viewModel.loadHistories(forceRefresh = true)
+        viewModel.loadHistories()
     }
 
     private fun showAddSugarDialog() {
@@ -428,8 +443,11 @@ class HomeFragment : Fragment() {
                 override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                     loadingDialog.hideLoading()
                     if (response.isSuccessful) {
-                        // Refresh the list after successful deletion
+                        // Refresh both the history list and dashboard
                         loadDailyConsumption()
+                        lifecycleScope.launch {
+                            viewModel.fetchDashboard(viewModel.userPreferences.value?.userId ?: "")
+                        }
                         Toast.makeText(
                             requireContext(),
                             "History deleted successfully",

@@ -6,6 +6,7 @@ import com.unchain.data.model.DashboardResponse
 import com.unchain.data.model.SugarHistory
 import com.unchain.data.model.UpdateHistoryResponse
 import com.unchain.data.model.UpdateProfile
+import com.unchain.data.model.UpdateProfileResponse
 import com.unchain.data.model.UserProfileResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -15,16 +16,15 @@ interface ApiService {
     @POST("api/v1/histories")
     fun addHistory(@Body history: SugarHistory): Call<AddHistoryResponse>
 
-    @GET("api/v1/users/info")
+    @GET("api/v1/users/profile")
     fun getProfile(): Call<UserProfileResponse>
 
-    @PUT("api/v1/users/{userId}")
+    @PUT("api/v1/users/profile")
     fun updateProfile(
-        @Path("userId") userId: String,
         @Body userInfo: UpdateProfile
-    ): Call<UpdateHistoryResponse>
+    ): Call<UpdateProfileResponse>
 
-    @POST("api/v1/users")
+    @POST("api/v1/users/profile")
     fun insertUser(@Body userInfo: UpdateProfile): Call<UpdateHistoryResponse>
 
     @GET("api/v1/histories")

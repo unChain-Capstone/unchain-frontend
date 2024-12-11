@@ -4,6 +4,7 @@ plugins {
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.24"
     id("com.google.devtools.ksp")
+    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
@@ -65,6 +66,7 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.tensorflow.lite.support)
     implementation(libs.tensorflow.lite.metadata)
+    implementation(libs.firebase.crashlytics)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -94,8 +96,8 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 }

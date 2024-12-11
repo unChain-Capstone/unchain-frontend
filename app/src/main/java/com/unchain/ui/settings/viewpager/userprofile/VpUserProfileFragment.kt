@@ -1,32 +1,29 @@
 package com.unchain.ui.settings.viewpager.userprofile
 
-import androidx.fragment.app.viewModels
+import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.RadioGroup
 import android.widget.Toast
-import android.app.DatePickerDialog
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import android.widget.EditText
 import com.unchain.R
 import com.unchain.data.preferences.preferences.UserPreferencesManager
 import com.unchain.databinding.FragmentVpUserProfileBinding
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
 
 class VpUserProfileFragment : Fragment() {
     private var _binding: FragmentVpUserProfileBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: VpUserProfileViewModel by viewModels {
-        VpUserProfileModelFactory(
-            UserPreferencesManager(requireContext())
-        )
-    }
+    private lateinit var viewModel: VpUserProfileViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,23 +32,39 @@ class VpUserProfileFragment : Fragment() {
         _binding = FragmentVpUserProfileBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        viewModel = ViewModelProvider(
+            this,
+            VpUserProfileViewModelFactory(UserPreferencesManager(requireContext()))
+        )[VpUserProfileViewModel::class.java]
+
         binding.updateButton.setOnClickListener {
             showUpdateInfoDialog()
         }
 
-        viewModel.userPreferences.observe(viewLifecycleOwner) { userPreferences ->
-            binding.tvFullName.text = userPreferences.displayName
-            binding.tvUserEmail.text = userPreferences.email
+        lifecycleScope.launch {
+            viewModel.userPreferences.collect { userPreferences ->
+                binding.tvFullName.text = userPreferences.displayName
+                binding.tvUserEmail.text = userPreferences.email
+                binding.tvDOBVp.text = userPreferences.dateOfBirth
+                binding.tvHeightVp.text = "${userPreferences.height} cm"
+                binding.tvWeightVp.text = "${userPreferences.weight} kg"
+                binding.tvGenderVp.text = if (userPreferences.isMale) "Male" else "Female"
+            }
         }
 
         viewModel.height.observe(viewLifecycleOwner) { height ->
-            binding.tvHeightVp.text = height.toString()
+            binding.tvHeightVp.text = "$height cm"
         }
         viewModel.weight.observe(viewLifecycleOwner) { weight ->
-            binding.tvWeightVp.text = weight.toString()
+            binding.tvWeightVp.text = "$weight kg"
         }
-        viewModel.age.observe(viewLifecycleOwner) { age ->
-            binding.tvDOBVp.text = age.toString()
+
+        viewModel.dateOfBirth.observe(viewLifecycleOwner){ dateOfBirth ->
+            binding.tvDOBVp.text = dateOfBirth
+        }
+
+        viewModel.gender.observe(viewLifecycleOwner) { isMale ->
+            binding.tvGenderVp.text = if (isMale) "Male" else "Female"
         }
 
         observeUpdateProfileState()
@@ -59,11 +72,36 @@ class VpUserProfileFragment : Fragment() {
         return view
     }
 
+    private fun observeUpdateProfileState() {
+        viewModel.updateProfileState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UpdateProfileState.Loading -> {
+
+                }
+                is UpdateProfileState.Success -> {
+                    Toast.makeText(requireContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show()
+                }
+                is UpdateProfileState.Error -> {
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                }
+                else -> {}
+            }
+        }
+    }
+
     private fun showUpdateInfoDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_update_info, null)
         val heightInput = dialogView.findViewById<EditText>(R.id.etHeight)
         val weightInput = dialogView.findViewById<EditText>(R.id.etWeight)
         val dobInput = dialogView.findViewById<EditText>(R.id.etDOB)
+        val radioGroupGender = dialogView.findViewById<RadioGroup>(R.id.radioGroupGender)
+
+        // Pre-fill current values
+        viewModel.height.value?.let { heightInput.setText(it) }
+        viewModel.weight.value?.let { weightInput.setText(it) }
+        viewModel.gender.value?.let { isMale ->
+            radioGroupGender.check(if (isMale) R.id.radioMale else R.id.radioFemale)
+        }
 
         // Set up date picker
         dobInput.setOnClickListener {
@@ -91,7 +129,8 @@ class VpUserProfileFragment : Fragment() {
                     viewModel.updateUserInfo(
                         newHeight = heightInput.text.toString(),
                         newWeight = weightInput.text.toString(),
-                        newAge = dobInput.text.toString()
+                        dateOfBirth = dobInput.text.toString(),
+                        isMale = radioGroupGender.checkedRadioButtonId == R.id.radioMale
                     )
                     dismiss()
                 }
@@ -113,9 +152,13 @@ class VpUserProfileFragment : Fragment() {
         DatePickerDialog(
             requireContext(),
             { _, selectedYear, selectedMonth, selectedDay ->
-                calendar.set(selectedYear, selectedMonth, selectedDay)
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                dobInput.setText(dateFormat.format(calendar.time))
+                val formattedDate = String.format(
+                    "%d-%02d-%02d",
+                    selectedYear,
+                    selectedMonth + 1,
+                    selectedDay
+                )
+                dobInput.setText(formattedDate)
             },
             year,
             month,
@@ -123,27 +166,20 @@ class VpUserProfileFragment : Fragment() {
         ).show()
     }
 
-    private fun observeUpdateProfileState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.updateProfileState.collect { state ->
-                when (state) {
-                    is UpdateProfileState.Loading -> {
-                        // Show loading if needed
-                    }
-                    is UpdateProfileState.Success -> {
-                        Toast.makeText(requireContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show()
-                    }
-                    is UpdateProfileState.Error -> {
-                        Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
-                    }
-                    else -> {}
-                }
-            }
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+}
+
+class VpUserProfileViewModelFactory(
+    private val userPreferencesManager: UserPreferencesManager
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(VpUserProfileViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return VpUserProfileViewModel(userPreferencesManager) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

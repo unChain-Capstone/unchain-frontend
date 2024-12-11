@@ -54,7 +54,7 @@ class SugarPreferencesManager(private val context: Context) {
             val currentAmount = preferences[PreferencesKeys.TOTAL_SUGAR_AMOUNT] ?: 0
             val currentHistory = getDailyHistory().toMutableMap()
 
-            // Save ke hari ini ke history
+
             if (currentAmount > 0) {
                 currentHistory[preferences[PreferencesKeys.CURRENT_DATE] ?: currentDate] =
                     sugarConsumptions
@@ -85,7 +85,7 @@ class SugarPreferencesManager(private val context: Context) {
 
             preferences[PreferencesKeys.TOTAL_SUGAR_AMOUNT] = newAmount
 
-            // Pastikan tanggal juga tersimpan
+
             if (preferences[PreferencesKeys.CURRENT_DATE] == null) {
                 preferences[PreferencesKeys.CURRENT_DATE] = LocalDate.now().toString()
             }

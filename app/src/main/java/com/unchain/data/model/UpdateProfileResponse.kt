@@ -3,15 +3,15 @@ package com.unchain.data.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserProfileResponse(
+data class UpdateProfileResponse(
     val status: Boolean,
-    val data: UserData,
+    val data: UserProfile,
     val message: String,
     val code: Int
 )
 
 @Serializable
-data class UserData(
+data class UserProfile(
     val id: String,
     val name: String,
     val isMale: Boolean,
@@ -19,5 +19,7 @@ data class UserData(
     val weight: Int,
     val height: Int,
     val email: String,
-    val photoUrl: String
+    val photoUrl: String,
+    val createdAt: String,
+    val updatedAt: String
 )

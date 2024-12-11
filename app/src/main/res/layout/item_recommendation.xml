@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recommendationContainer"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:background="@drawable/rounded_corner"
     android:backgroundTint="@color/black"
@@ -14,32 +14,44 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/medium"
-            android:text="@string/title_recommendation"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
-        <Space
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/medium"
+                android:text="@string/weekly_sugar_level"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/sugarLevelText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:fontFamily="@font/medium"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                tools:text="Normal" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/scoreText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/semi_bold"
-            android:text="@string/confidence"
-            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/medium"
             android:textColor="@color/white"
-            android:textSize="10sp"
-            tools:ignore="SmallSp" />
+            android:textSize="12sp"
+            tools:text="90%" />
     </LinearLayout>
 
     <TextView
@@ -48,8 +60,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/inter"
-        android:text="@string/rec_desc"
         android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:textSize="12sp"
+        tools:text="Your weekly sugar intake is within healthy limits" />
 
 </LinearLayout>

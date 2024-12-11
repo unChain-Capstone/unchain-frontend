@@ -16,7 +16,7 @@ class RecommendationAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val container: LinearLayout = view.findViewById(R.id.recommendationContainer)
-        val titleText: TextView = view.findViewById(R.id.titleText)
+        val sugarLevelText: TextView = view.findViewById(R.id.sugarLevelText)
         val scoreText: TextView = view.findViewById(R.id.scoreText)
         val recommendationText: TextView = view.findViewById(R.id.recommendationText)
     }
@@ -30,8 +30,8 @@ class RecommendationAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = recommendations[position]
         
-        holder.titleText.text = "Sugar Level: ${item.sugarLevel}"
-        holder.scoreText.text = String.format("Confidence: %.1f%%", item.score * 100)
+        holder.sugarLevelText.text = " ${item.sugarLevel}"
+        holder.scoreText.text = "${item.score.toInt()}%"
         holder.recommendationText.text = item.recommendation
         
         holder.container.setOnClickListener {

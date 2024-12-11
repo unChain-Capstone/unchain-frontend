@@ -60,6 +60,7 @@
                     android:textColor="@color/black"
                     android:text="@string/gender" />
                 <TextView
+                    android:id="@+id/tvGenderVp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/medium"
@@ -75,6 +76,7 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:text="@string/date_birth" />
+
                 <TextView
                     android:id="@+id/tvDOBVp"
                     android:layout_width="match_parent"
