@@ -30,7 +30,7 @@ class RecommendationAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = recommendations[position]
         
-        holder.sugarLevelText.text = item.sugarLevel
+        holder.sugarLevelText.text = " ${item.sugarLevel}"
         holder.scoreText.text = "${item.score.toInt()}%"
         holder.recommendationText.text = item.recommendation
         

@@ -21,7 +21,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -35,18 +36,18 @@
                 android:id="@+id/sugarLevelText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="@font/semi_bold"
+                android:layout_marginStart="2dp"
+                android:fontFamily="@font/medium"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 tools:text="Normal" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/scoreText"
-            android:layout_gravity="start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:fontFamily="@font/medium"
             android:textColor="@color/white"
             android:textSize="12sp"
@@ -57,6 +58,7 @@
         android:id="@+id/recommendationText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/inter"
         android:textColor="@color/white"
         android:textSize="12sp"
