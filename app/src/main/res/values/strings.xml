@@ -27,7 +27,7 @@
     <string name="weekly_title">Weekly Overview</string>
     <string name="monthly_title">Monthly Summary</string>
     <string name="monthly_sugar_sub">Monthly Sugar Consumption :</string>
-    <string name="date">Date</string>
+    <string name="date"></string>
     <string name="weekly_sugar_sub">Weekly Sugar Consumption :</string>
     <string name="title_recommendation">Normal</string>
     <string name="confidence">Confidence: 100%</string>

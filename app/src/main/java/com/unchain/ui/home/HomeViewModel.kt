@@ -43,7 +43,7 @@ class HomeViewModel(
     private lateinit var recommendationHelper: RecommendationHelper
 
     private var lastFetchTime: Long = 0
-    private val FETCH_INTERVAL = 5 * 60 * 1000 // 5 menit dalam milidetik
+    private val FETCH_INTERVAL = 5 * 60 * 1000
 
     fun loadHistories(forceRefresh: Boolean = false) {
         val currentTime = System.currentTimeMillis()
