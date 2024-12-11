@@ -17,6 +17,7 @@ import com.unchain.data.preferences.preferences.SugarPreferencesManager
 import com.unchain.data.preferences.preferences.UserPreferencesManager
 import com.unchain.data.ml.RecommendationHelper
 import com.unchain.data.ml.RecommendationItem
+import com.unchain.data.model.DashboardResponse
 import com.unchain.network.ApiClient
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -83,12 +84,14 @@ class HomeViewModel(
                     response.body()?.let { dashboardResponse -> 
                         Log.d("HomeViewModel", "Dashboard data received: ${dashboardResponse.data}")
                         _dashboardData.value = dashboardResponse.data
+                        // Update recommendations based on new weekly intake
+                        updateRecommendations(dashboardResponse.data.weeklySugar.toFloat())
                     }
                 } else {
                     Log.e("HomeViewModel", "Error fetching dashboard: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
-                Log.e("HomeViewModel", "Exception fetching dashboard", e)
+                Log.e("HomeViewModel", "Exception in fetchDashboard", e)
             }
         }
     }

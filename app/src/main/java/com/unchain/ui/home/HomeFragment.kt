@@ -41,11 +41,13 @@ import com.unchain.data.model.DashboardData
 import com.unchain.data.model.AddHistoryResponse
 import com.unchain.network.ApiClient
 import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.unchain.utils.hideLoading
 import com.unchain.utils.showLoading
 import com.unchain.adapters.RecommendationAdapter
 import com.unchain.data.ml.RecommendationItem
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() {
@@ -63,14 +65,20 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupObservers()
         setupClickListeners()
         setupTabs()
+        setupObservers()
+        setupRecyclerViews()
         showDailyCard()
-
+        loadDailyConsumption()
+        viewModel.fetchDashboard(viewModel.userPreferences.value?.userId ?: "")
+        
         // Initialize recommendation system
         viewModel.initRecommendationSystem(requireContext())
+        updateRecommendations()
+    }
 
+    private fun setupRecyclerViews() {
         // Setup daily consume adapter
         dailyConsumeAdapter = DailyConsumeAdapter(
             onDeleteClick = { historyId ->
@@ -91,10 +99,6 @@ class HomeFragment : Fragment() {
             adapter = recommendationAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
-
-
-        viewModel.loadHistories()
-        updateRecommendations()
     }
 
     private fun updateRecommendations() {
@@ -287,7 +291,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadDailyConsumption() {
-        viewModel.loadHistories(forceRefresh = true)
+        viewModel.loadHistories()
     }
 
     private fun showAddSugarDialog() {
@@ -439,8 +443,11 @@ class HomeFragment : Fragment() {
                 override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                     loadingDialog.hideLoading()
                     if (response.isSuccessful) {
-                        // Refresh the list after successful deletion
+                        // Refresh both the history list and dashboard
                         loadDailyConsumption()
+                        lifecycleScope.launch {
+                            viewModel.fetchDashboard(viewModel.userPreferences.value?.userId ?: "")
+                        }
                         Toast.makeText(
                             requireContext(),
                             "History deleted successfully",
