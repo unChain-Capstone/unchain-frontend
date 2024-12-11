@@ -76,23 +76,23 @@ class RecommendationHelper(private val context: Context) {
             
 
             val (sugarLevel, confidence) = when {
-                dailyIntake >= DAILY_SUGAR_LIMIT -> Pair("High", 99f)
-                dailyIntake >= 20f -> Pair("Normal", 95f)
-                else -> Pair("Low", 90f)
+                dailyIntake >= WEEKLY_SUGAR_LIMIT -> Pair("High", 95.0f)
+                dailyIntake >= 20f -> Pair("Normal", 90.0f)
+                else -> Pair("Low", 85.0f)
             }
             
 
             val recommendation = when (sugarLevel) {
-                "High" -> "Try to reduce your sugar intake to maintain better health"
-                "Normal" -> "Your sugar intake is within healthy limits, but monitor it closely"
-                else -> "Your sugar intake is below recommended levels"
+                "High" -> "Your weekly sugar intake is above recommended levels. Consider reducing consumption."
+                "Normal" -> "Your weekly sugar intake is within healthy limits, but monitor it closely"
+                else -> "Your weekly sugar intake is below recommended levels. Consider balanced nutrition."
             }
             
             return listOf(
                 RecommendationItem(
                     id = sugarLevels.indexOf(sugarLevel) + 1,
                     sugarLevel = sugarLevel,
-                    score = confidence,
+                    score = confidence.coerceIn(0f, 100f),
                     recommendation = recommendation
                 )
             )

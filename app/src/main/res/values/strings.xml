@@ -29,8 +29,10 @@
     <string name="monthly_sugar_sub">Monthly Sugar Consumption :</string>
     <string name="date"></string>
     <string name="weekly_sugar_sub">Weekly Sugar Consumption :</string>
-    <string name="title_recommendation">Normal</string>
-    <string name="confidence">Confidence: 100%</string>
+    <string name="title_recommendation">Weekly Sugar Analysis</string>
+    <string name="confidence">Confidence Score</string>
+    <string name="weekly_sugar_level">Weekly Sugar Level:</string>
+    <string name="rec_desc2">Based on your weekly sugar consumption pattern</string>
     <string name="history_weight">20gr</string>
     <string name="food_name">Food Name</string>
     <string name="date_history">23 Nov</string>
