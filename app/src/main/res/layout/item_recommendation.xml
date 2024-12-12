@@ -12,7 +12,8 @@
     android:padding="16dp"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?attr/selectableItemBackground">
+    android:stateListAnimator="@animator/lift_on_touch"
+    android:foreground="?attr/selectableItemBackgroundBorderless">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,14 +58,30 @@
             tools:text="90%" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/recommendationText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/inter"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        tools:text="Your weekly sugar intake is within healthy limits" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/recommendationText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/inter"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            tools:text="Your weekly sugar intake is within healthy limits" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25sp"
+            android:src="@drawable/ic_chevron_right"
+            app:tint="@color/white"
+            android:contentDescription="@string/see_all"
+            android:alpha="1" />
+    </LinearLayout>
 
 </LinearLayout>

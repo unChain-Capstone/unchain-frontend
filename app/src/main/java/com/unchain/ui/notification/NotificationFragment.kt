@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.unchain.R
 import com.unchain.databinding.FragmentNotificationBinding
@@ -31,6 +32,13 @@ class NotificationFragment : Fragment() {
         setupRecyclerView()
         observeNotifications()
         setupAnimation()
+        setupBackButton()
+    }
+
+    private fun setupBackButton() {
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun setupAnimation() {

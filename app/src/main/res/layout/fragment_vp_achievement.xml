@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_margin="8dp"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -13,20 +14,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:orientation="vertical">
 
             <!-- Title Section -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp">
+                android:layout_margin="8dp"
+                android:layout_marginBottom="2dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="achievements"
+                    android:text="@string/achievements"
                     android:textSize="24sp"
                     android:fontFamily="@font/medium"
                     android:textColor="@color/black" />
@@ -34,9 +34,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="See All"
+                    android:text="@string/see_all"
                     android:fontFamily="@font/semi_bold"
-                    android:textColor="#2196F3"
+                    android:textColor="@color/blue"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
@@ -77,7 +77,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
-                            android:text="7 Day Streak"
+                            android:text="@string/_7_day_streak"
                             android:fontFamily="@font/semi_bold"
                             android:textAlignment="center"
                             android:layout_marginTop="8dp"/>
@@ -85,7 +85,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Track 7 days"
+                            android:text="@string/track_7_days"
                             android:fontFamily="@font/semi_bold"
                             android:textSize="10sp"
                             android:textColor="@color/dark_grey"/>
@@ -112,6 +112,7 @@
                         <ImageView
                             android:layout_width="80dp"
                             android:layout_height="80dp"
+                            android:contentDescription="@string/achievemeny_badge"
                             android:src="@drawable/unstreak14"
                             android:scaleType="fitCenter"/>
 
@@ -119,7 +120,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
-                            android:text="14 Day Streak"
+                            android:text="@string/_14_day_streak"
                             android:fontFamily="@font/semi_bold"
                             android:textAlignment="center"
                             android:layout_marginTop="8dp"/>
@@ -127,7 +128,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Track 14 days"
+                            android:text="@string/track_14_days"
                             android:fontFamily="@font/semi_bold"
                             android:textSize="10sp"
                             android:textColor="@color/dark_grey"/>
@@ -154,13 +155,14 @@
                         <ImageView
                             android:layout_width="80dp"
                             android:layout_height="80dp"
+                            android:contentDescription="@string/achievemeny_badge"
                             android:src="@drawable/unstreak30"
                             android:scaleType="fitCenter"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="30 Day Streak"
+                            android:text="@string/_30_day_streak"
                             android:textColor="@color/black"
                             android:fontFamily="@font/semi_bold"
                             android:textAlignment="center"
@@ -169,7 +171,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Track 30 days"
+                            android:text="@string/track_30_days"
                             android:textSize="10sp"
                             android:fontFamily="@font/semi_bold"
                             android:textColor="@color/dark_grey"/>
@@ -183,7 +185,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="Challenges"
+                android:text="@string/challenges_title"
                 android:textSize="24sp"
                 android:fontFamily="@font/medium"
                 android:textColor="@color/black"
@@ -206,6 +208,7 @@
                     <ImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
+                        android:contentDescription="@string/achievemeny_badge"
                         android:src="@drawable/streak7"
                         android:scaleType="fitCenter"/>
 
@@ -218,7 +221,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="7-Day Sugar Tracking"
+                            android:text="@string/_7_day_sugar_tracking"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             android:fontFamily="@font/semi_bold"/>
@@ -226,7 +229,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="6 days remaining"
+                            android:text="@string/_6_days_remaining"
                             android:fontFamily="@font/medium"
                             android:textColor="#AAAAAA"
                             android:layout_marginTop="4dp"/>
@@ -235,14 +238,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/semi_bold"
-                            android:text="Track your sugar intake daily for 7 days to earn this badge"
+                            android:text="@string/subtitle_achievement"
                             android:textColor="@color/white"
                             android:layout_marginTop="8dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Day 1"
+                            android:text="@string/title_progress"
                             android:fontFamily="@font/medium"
                             android:textColor="@color/white"
                             android:layout_marginTop="8dp"/>
@@ -251,7 +254,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="4dp"
                             android:layout_marginTop="4dp"
-                            android:progress="2"
+                            android:progress="14"
                             android:progressTint="#2196F3"
                             android:background="#444444"
                             style="?android:attr/progressBarStyleHorizontal"/>

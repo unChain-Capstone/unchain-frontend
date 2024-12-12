@@ -85,4 +85,19 @@
     <string name="title_premium">Get Premium</string>
     <string name="close">Close</string>
     <string name="icon_check">icon_check</string>
+    <string name="achievements">Achievements</string>
+    <string name="see_all">See All</string>
+    <string name="_7_day_streak">7 Day Streak</string>
+    <string name="track_7_days">Track 7 days</string>
+    <string name="achievemeny_badge">achievemeny badge</string>
+    <string name="_14_day_streak">14 Day Streak</string>
+    <string name="track_14_days">Track 14 days</string>
+    <string name="_30_day_streak">30 Day Streak</string>
+    <string name="track_30_days">Track 30 days</string>
+    <string name="challenges_title">Challenges</string>
+    <string name="_7_day_sugar_tracking">7-Day Sugar Tracking</string>
+    <string name="_6_days_remaining">6 days remaining</string>
+    <string name="subtitle_achievement">Track your sugar intake daily for 7 days to earn this badge</string>
+    <string name="title_progress">Day 1</string>
+    <string name="notifications_tittle">notifications</string>
 </resources>
