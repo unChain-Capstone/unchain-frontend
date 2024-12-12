@@ -15,10 +15,10 @@ import com.unchain.R
 import com.unchain.auth.LoginActivity
 import com.unchain.data.preferences.preferences.UserPreferencesManager
 import com.unchain.databinding.FragmentVpSettingsBinding
+import com.unchain.ui.home.PremiumFragment
 import kotlinx.coroutines.launch
 
 class VpSettingsFragment : Fragment() {
-
 
     private val viewModel: VpSettingsViewModel by viewModels()
     private var _binding: FragmentVpSettingsBinding? = null
@@ -36,7 +36,15 @@ class VpSettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentVpSettingsBinding.inflate(inflater, container, false)
+        setupPremiumButton(binding.root)
         return binding.root
+    }
+
+    private fun setupPremiumButton(view: View) {
+        view.findViewById<View>(R.id.btnSettingsPremium)?.setOnClickListener {
+            val premiumFragment = PremiumFragment()
+            premiumFragment.show(parentFragmentManager, "premium_dialog")
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

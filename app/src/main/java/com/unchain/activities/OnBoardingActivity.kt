@@ -14,7 +14,9 @@ import com.unchain.data.preferences.preferences.PreferencesManager
 import com.unchain.databinding.ActivityOnboardingBinding
 import com.unchain.models.OnboardingPage
 import com.unchain.viewmodels.OnboardingViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OnboardingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnboardingBinding
     private lateinit var preferencesManager: PreferencesManager

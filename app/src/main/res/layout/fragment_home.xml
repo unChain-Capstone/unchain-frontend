@@ -21,7 +21,10 @@
         android:padding="16dp"
         tools:ignore="MissingConstraints">
 
+        <!-- Premium Button -->
+
         <!-- Profile Image -->
+
         <ImageView
             android:id="@+id/profileImage"
             android:layout_width="56dp"
@@ -100,8 +103,9 @@
 
         <!-- Tabs -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
@@ -134,17 +138,21 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
+
         <!-- Add Button -->
         <Button
             android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="50dp"
             android:background="@drawable/button"
             android:backgroundTint="@color/black"
             android:textAlignment="center"
             android:text="@string/add_button"
             android:textColor="@color/white" />
+
+
+
     </LinearLayout>
 
     <!-- Middle Card Section -->

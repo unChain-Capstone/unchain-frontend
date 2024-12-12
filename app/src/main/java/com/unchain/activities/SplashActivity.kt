@@ -11,7 +11,9 @@ import com.google.firebase.auth.auth
 import com.unchain.R
 import com.unchain.auth.LoginActivity
 import com.unchain.data.preferences.preferences.PreferencesManager
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var preferencesManager: PreferencesManager

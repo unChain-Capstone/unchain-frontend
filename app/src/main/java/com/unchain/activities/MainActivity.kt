@@ -9,7 +9,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.unchain.R
 import com.unchain.databinding.ActivityMainBinding
 import com.unchain.utils.NavigationUtils
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var lastSelectedItemId = R.id.navigation_home

@@ -7,8 +7,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="black">#1F1F1F</color>
     <color name="green">#CDF6B4</color>
+    <color name="blue">#2196F3</color>
     <color name="dark_grey">#565766</color>
     <color name="light_grey">#BFBFBF</color>
+    <color name="yellow">#E7A33E</color>
     <color name="orange">#F6DBB4</color>
     <color name="message_background">#E3F2FD</color>
     <color name="message_text">#000000</color>
@@ -16,5 +18,9 @@
     <color name="bot">#5F5151</color>
     <color name="red">#EA4335</color>
     <color name="pink">#FF4081</color>
+    <color name="warning">#FFA726</color>
+    <color name="ripple">#1F000000</color>
+    <color name="divider">#1F000000</color>
+    <color name="text_secondary">#757575</color>
 
 </resources>

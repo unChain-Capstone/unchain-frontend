@@ -18,9 +18,9 @@ import com.unchain.R
 import com.unchain.activities.OnboardingActivity
 import com.unchain.data.preferences.model.UserPreferences
 import com.unchain.databinding.FragmentSettingsBinding
+import com.unchain.ui.home.PremiumFragment
 import com.unchain.ui.settings.viewpager.VPAdapter
 import com.unchain.viewmodels.CustomTabBar
-
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
@@ -44,6 +44,12 @@ class SettingsFragment : Fragment() {
         setupViewPager()
         setupTabBar()
         setupObservers()
+        
+        // Setup click listeners after ViewPager is ready
+        binding.vp.post {
+            setupClickListeners()
+            setupPremiumButton()
+        }
 
         return binding.root
     }
@@ -58,7 +64,6 @@ class SettingsFragment : Fragment() {
     private fun setupTabBar() {
         binding.header.tabBar.attachTo(binding.vp)
     }
-
 
     private fun setupObservers() {
         viewModel.userPreferences.observe(viewLifecycleOwner) { userPreferences ->
@@ -76,32 +81,24 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        // Edit Profile Button
-//        binding.btnEditProfile.setOnClickListener {
-//            // TODO: Implement edit profile functionality
-//        }
-
         // Logout
-        binding.root.findViewById<View>(R.id.logout_layout).setOnClickListener {
+        binding.vp.findViewById<View>(R.id.logout_layout)?.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             startActivity(Intent(requireContext(), OnboardingActivity::class.java))
             requireActivity().finish()
         }
 
         // Support
-        binding.root.findViewById<View>(R.id.support_layout).setOnClickListener {
+        binding.vp.findViewById<View>(R.id.support_layout)?.setOnClickListener {
             // TODO: Implement support functionality
         }
+    }
 
-        // Notification Switch
-//        binding.switchNotification.setOnCheckedChangeListener { _, isChecked ->
-//            // TODO: Save notification preference
-//        }
+    private fun setupPremiumButton() {
 
-        // Dark Mode Switch
-//        binding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
-//            // TODO: Implement dark mode functionality
-//        }
+        binding.vp.findViewById<View>(R.id.btnSettingsPremium)?.setOnClickListener {
+            PremiumFragment().show(childFragmentManager, "premium_dialog")
+        }
     }
 
     override fun onDestroyView() {

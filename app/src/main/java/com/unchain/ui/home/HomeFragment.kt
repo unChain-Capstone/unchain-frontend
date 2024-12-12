@@ -65,6 +65,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupClickListeners()
         setupTabs()
         setupObservers()
@@ -92,8 +93,7 @@ class HomeFragment : Fragment() {
 
         // Setup recommendation adapter
         recommendationAdapter = RecommendationAdapter { recommendedItem: RecommendationItem ->
-            // Handle recommendation click
-            Toast.makeText(context, "Sugar Level: ${recommendedItem.sugarLevel}", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_navigation_home_to_behaviorFragment)
         }
         binding.recommendationsRecyclerView.apply {
             adapter = recommendationAdapter
@@ -471,6 +471,11 @@ class HomeFragment : Fragment() {
                     ).show()
                 }
             })
+    }
+
+    private fun showPremiumDialog() {
+        val premiumFragment = PremiumFragment()
+        premiumFragment.show(parentFragmentManager, "premium_dialog")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
