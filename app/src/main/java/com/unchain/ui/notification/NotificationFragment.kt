@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.unchain.R
 import com.unchain.databinding.FragmentNotificationBinding
 
 class NotificationFragment : Fragment() {
@@ -28,6 +30,12 @@ class NotificationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         observeNotifications()
+        setupAnimation()
+    }
+
+    private fun setupAnimation() {
+        val slideUpAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_up)
+        binding.root.startAnimation(slideUpAnimation)
     }
 
     private fun setupRecyclerView() {

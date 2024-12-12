@@ -19,7 +19,7 @@
             android:layout_height="24dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_close"
-            android:contentDescription="Close" />
+            android:contentDescription="@string/close" />
 
     </RelativeLayout>
 
@@ -30,7 +30,7 @@
         android:layout_marginTop="48dp"
         android:layout_marginBottom="24dp"
         android:fontFamily="@font/semi_bold"
-        android:text="Get Premium"
+        android:text="@string/title_premium"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="30sp" />
@@ -53,13 +53,14 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="12dp"
+                android:contentDescription="@string/icon_check"
                 android:src="@drawable/ic_check" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/medium"
-                android:text="Explore diverse meal options from our 100-million food database. "
+                android:text="@string/food_database"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -75,13 +76,37 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="12dp"
+                android:contentDescription="@string/icon_check"
                 android:src="@drawable/ic_check" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/medium"
-                android:text="Accurately analyze habits to target areas for improvement. "
+                android:text="@string/imporvment"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:contentDescription="@string/icon_check"
+                android:layout_height="24dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_check" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/medium"
+                android:text="@string/chatbot"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -97,13 +122,37 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="12dp"
+                android:contentDescription="@string/icon_check"
                 android:src="@drawable/ic_check" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/medium"
-                android:text="Better Chatbot"
+                android:text="@string/unlimited_chatbot"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:contentDescription="@string/icon_check"
+                android:layout_height="24dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_check" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/medium"
+                android:text="@string/discount"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -119,13 +168,14 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="12dp"
+                android:contentDescription="@string/icon_check"
                 android:src="@drawable/ic_check" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/medium"
-                android:text="Unlimited Chatbot"
+                android:text="@string/notif"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -140,6 +190,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:contentDescription="@string/icon_check"
                 android:layout_marginEnd="12dp"
                 android:src="@drawable/ic_check" />
 
@@ -147,7 +198,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/medium"
-                android:text="More discount and promo with our integrated healthcare"
+                android:text="@string/ad_free"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -162,6 +213,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:contentDescription="@string/icon_check"
                 android:layout_marginEnd="12dp"
                 android:src="@drawable/ic_check" />
 
@@ -169,51 +221,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/medium"
-                android:text="No ads"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="12dp"
-                android:src="@drawable/ic_check" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/medium"
-                android:text="Real Time Notifications"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="12dp"
-                android:src="@drawable/ic_check" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/medium"
-                android:text="Unlimited History"
+                android:text="@string/unlimited_history"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>

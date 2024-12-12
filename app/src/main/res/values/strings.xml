@@ -74,4 +74,15 @@
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="free_trials">Try Premium for IDR0 <strike>IDR50.000</strike></string>
     <string name="Sub_freetrials">1-month free trial with 24/7 support. We\'ll remind you 7 days before your trial ends.</string>
+    <string name="unlimited_history">Unlimited History</string>
+    <string name="ad_free">Enjoy an ad-free experience</string>
+    <string name="notif"><![CDATA[Get real-time notifications.]]></string>
+    <string name="discount">Bigger discounts with integrated healthcare</string>
+    <string name="unlimited_chatbot">Unlimited Chatbot</string>
+    <string name="chatbot">Smarter, more intuitive chatbot</string>
+    <string name="imporvment">Accurately analyze habits to target areas for improvement.</string>
+    <string name="food_database">Explore diverse meal options from our 100-million food database.</string>
+    <string name="title_premium">Get Premium</string>
+    <string name="close">Close</string>
+    <string name="icon_check">icon_check</string>
 </resources>
