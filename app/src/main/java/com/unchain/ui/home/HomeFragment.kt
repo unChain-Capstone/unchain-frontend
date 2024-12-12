@@ -65,6 +65,12 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        // Setup premium button
+        view.findViewById<View>(R.id.btnPremium).setOnClickListener {
+            showPremiumDialog()
+        }
+        
         setupClickListeners()
         setupTabs()
         setupObservers()
@@ -471,6 +477,11 @@ class HomeFragment : Fragment() {
                     ).show()
                 }
             })
+    }
+
+    private fun showPremiumDialog() {
+        val premiumFragment = PremiumFragment()
+        premiumFragment.show(parentFragmentManager, "premium_dialog")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

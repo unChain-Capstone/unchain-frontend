@@ -72,4 +72,6 @@
     <string name="login_illustration">login illustration</string>
     <string name="onboarding_image">onboarding image</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="free_trials">Try Premium for IDR0 <strike>IDR50.000</strike></string>
+    <string name="Sub_freetrials">1-month free trial with 24/7 support. We\'ll remind you 7 days before your trial ends.</string>
 </resources>
