@@ -98,8 +98,7 @@ class HomeFragment : Fragment() {
 
         // Setup recommendation adapter
         recommendationAdapter = RecommendationAdapter { recommendedItem: RecommendationItem ->
-            // Handle recommendation click
-            Toast.makeText(context, "Sugar Level: ${recommendedItem.sugarLevel}", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_navigation_home_to_behaviorFragment)
         }
         binding.recommendationsRecyclerView.apply {
             adapter = recommendationAdapter

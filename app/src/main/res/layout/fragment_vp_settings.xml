@@ -29,7 +29,6 @@
                 android:fontFamily="@font/semi_bold"
                 android:textColor="@color/black"/>
 
-
             <!-- Premium Button -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSettingsPremium"
@@ -46,6 +45,7 @@
                 android:text="Upgrade to Premium"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
+
 
             <!-- Notification Switch -->
             <LinearLayout
@@ -78,37 +78,6 @@
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
             </LinearLayout>
 
-            <!-- Dark Mode Switch -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="8dp"
-                android:layout_marginTop="8dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:contentDescription="@string/dark_mode_icon"
-                    android:src="@drawable/ic_dark_mode_outlined" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/medium"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/dark_mode" />
-
-                <Switch
-                    android:id="@+id/switch_dark_mode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
-            </LinearLayout>
 
             <!-- Support Option -->
             <LinearLayout

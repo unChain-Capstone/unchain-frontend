@@ -28,11 +28,13 @@ import com.unchain.data.api.UserRegistrationRequest
 import com.unchain.data.preferences.model.UserPreferences
 import com.unchain.data.preferences.preferences.UserPreferencesManager
 import com.unchain.databinding.ActivityLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth

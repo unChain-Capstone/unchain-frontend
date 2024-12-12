@@ -1,6 +1,7 @@
 package com.unchain.network
 
 import com.unchain.data.model.AddHistoryResponse
+import com.unchain.data.model.BehaviorResponse
 import com.unchain.data.model.HistoryResponse
 import com.unchain.data.model.DashboardResponse
 import com.unchain.data.model.SugarHistory
@@ -35,4 +36,7 @@ interface ApiService {
 
     @GET("api/v1/dashboard")
     suspend fun getDashboard(@Query("userId") userId: String): Response<DashboardResponse>
+
+    @GET("api/v1/users/behaviour")
+    suspend fun getBehavior(@Header("Authorization") token: String): Response<BehaviorResponse>
 }

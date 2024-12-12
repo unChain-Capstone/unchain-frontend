@@ -17,5 +17,9 @@
     <color name="bot">#5F5151</color>
     <color name="red">#EA4335</color>
     <color name="pink">#FF4081</color>
+    <color name="warning">#FFA726</color>
+    <color name="ripple">#1F000000</color>
+    <color name="divider">#1F000000</color>
+    <color name="text_secondary">#757575</color>
 
 </resources>

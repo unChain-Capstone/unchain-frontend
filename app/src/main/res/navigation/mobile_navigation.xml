@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_navigation_home_to_notificationFragment"
             app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_behaviorFragment"
+            app:destination="@id/behaviorFragment" />
     </fragment>
 
     <fragment
@@ -28,4 +31,9 @@
         android:id="@+id/notificationFragment"
         android:name="com.unchain.ui.notification.NotificationFragment"
         tools:layout="@layout/fragment_notification" />
+
+    <fragment
+        android:id="@+id/behaviorFragment"
+        android:name="com.unchain.ui.behavior.BehaviorFragment"
+        tools:layout="@layout/fragment_behavior" />
 </navigation>
