@@ -5,19 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.unchain.data.model.BehaviorData
+import com.unchain.R
 import com.unchain.data.model.BehaviorResponse
 import com.unchain.databinding.FragmentBehaviorBinding
-import com.unchain.utils.showLoading
+import com.unchain.ui.behavior.BehaviorViewModel.BehaviorState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 @AndroidEntryPoint
 class BehaviorFragment : Fragment() {
@@ -45,59 +43,75 @@ class BehaviorFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnInputData.setOnClickListener {
-            // TODO: Navigate to input data screen
-            Snackbar.make(binding.root, "Coming soon: Input data screen", Snackbar.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_behaviorFragment_to_navigation_home)
         }
 
         binding.btnViewHistory.setOnClickListener {
-            // TODO: Navigate to history screen
-            Snackbar.make(binding.root, "Coming soon: History screen", Snackbar.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_behaviorFragment_to_navigation_home)
         }
     }
 
     private fun setupObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.behaviorState.collect { state ->
-                Log.d(TAG, "State changed to: $state")
                 when (state) {
-                    is BehaviorState.Loading -> {
-                        Log.d(TAG, "Loading state")
+                    BehaviorState.Loading -> {
                         showLoading(true)
                     }
                     is BehaviorState.Success -> {
-                        Log.d(TAG, "Success state: ${state.data}")
                         showLoading(false)
-                        updateUI(state.data.data)
+                        updateUI(state.data)
                     }
                     is BehaviorState.Error -> {
-                        Log.e(TAG, "Error state: ${state.message}")
                         showLoading(false)
-                        binding.tvBehaviorStatus.text = "Error"
-                        binding.tvMessage.text = state.message
-                        Snackbar.make(binding.root, state.message, Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(binding.root, state.message, Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
         }
     }
 
-    private fun updateUI(data: BehaviorData) {
-        binding.apply {
-            tvBehaviorStatus.text = data.behaviourStatus
-            tvMessage.text = data.message
+    private fun updateUI(data: BehaviorResponse) {
+        with(binding) {
+            // Update status and message
+            tvBehaviorStatus.text = data.data.behaviourStatus
+            tvMessage.text = data.data.message
+
+            // Update status icon and color based on status
+            when (data.data.behaviourStatus.toLowerCase()) {
+                "moderate addiction" -> {
+                    ivStatusIcon.setImageResource(R.drawable.ic_warning)
+                    ivStatusIcon.setColorFilter(resources.getColor(R.color.warning, null))
+                }
+                "high addiction" -> {
+                    ivStatusIcon.setImageResource(R.drawable.ic_warning)
+                    ivStatusIcon.setColorFilter(resources.getColor(R.color.error, null))
+                }
+                "low addiction" -> {
+                    ivStatusIcon.setImageResource(R.drawable.ic_warning)
+                    ivStatusIcon.setColorFilter(resources.getColor(R.color.success, null))
+                }
+                else -> {
+                    ivStatusIcon.setImageResource(R.drawable.ic_warning)
+                    ivStatusIcon.setColorFilter(resources.getColor(R.color.warning, null))
+                }
+            }
+
+            // Show suggestions sections
+            tvTop3Suggestion.visibility = View.VISIBLE
+            llTop3Suggestions.visibility = View.VISIBLE
+            tvOtherSuggestion.visibility = View.VISIBLE
+            llOtherSuggestions.visibility = View.VISIBLE
+
+            // Show main content
+            mainContainer.visibility = if (progressBar.visibility == View.VISIBLE) View.GONE else View.VISIBLE
         }
     }
 
-    private fun showLoading(isLoading: Boolean) {
+    private fun showLoading(show: Boolean) {
         binding.apply {
-            progressBar.isVisible = isLoading
-            ivStatusIcon.isVisible = !isLoading
-            tvBehaviorStatus.isVisible = !isLoading
-            tvMessage.isVisible = !isLoading
-            divider.isVisible = !isLoading
-            tvActionTitle.isVisible = !isLoading
-            btnInputData.isVisible = !isLoading
-            btnViewHistory.isVisible = !isLoading
+            progressBar.visibility = if (show) View.VISIBLE else View.GONE
+            mainContainer.visibility = if (show) View.INVISIBLE else View.VISIBLE
         }
     }
 

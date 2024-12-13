@@ -14,7 +14,11 @@
             app:destination="@id/notificationFragment" />
         <action
             android:id="@+id/action_navigation_home_to_behaviorFragment"
-            app:destination="@id/behaviorFragment" />
+            app:destination="@id/behaviorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -35,5 +39,13 @@
     <fragment
         android:id="@+id/behaviorFragment"
         android:name="com.unchain.ui.behavior.BehaviorFragment"
-        tools:layout="@layout/fragment_behavior" />
+        tools:layout="@layout/fragment_behavior">
+        <action
+            android:id="@+id/action_behaviorFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
 </navigation>
