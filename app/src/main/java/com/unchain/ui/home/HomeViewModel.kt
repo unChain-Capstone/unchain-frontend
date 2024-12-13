@@ -2,7 +2,6 @@ package com.unchain.ui.home
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -70,7 +69,7 @@ class HomeViewModel(
                 }
 
                 override fun onFailure(call: Call<HistoryResponse>, t: Throwable) {
-                    // Handle error
+                    // Handle error silently
                 }
             })
         }
@@ -82,16 +81,12 @@ class HomeViewModel(
                 val response = ApiClient.apiService.getDashboard(userId)
                 if (response.isSuccessful) {
                     response.body()?.let { dashboardResponse -> 
-                        Log.d("HomeViewModel", "Dashboard data received: ${dashboardResponse.data}")
                         _dashboardData.value = dashboardResponse.data
-                        // Update recommendations based on new weekly intake
                         updateRecommendations(dashboardResponse.data.weeklySugar.toFloat())
                     }
-                } else {
-                    Log.e("HomeViewModel", "Error fetching dashboard: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
-                Log.e("HomeViewModel", "Exception in fetchDashboard", e)
+                // Handle error silently
             }
         }
     }
@@ -129,7 +124,6 @@ class HomeViewModel(
                 val processedRecommendations = RecommendationHelper.processRecommendations(output)
                 _recommendations.value = processedRecommendations
             } catch (e: Exception) {
-                Log.e("HomeViewModel", "Error getting recommendations", e)
                 _recommendations.value = getDefaultRecommendation()
             }
         }

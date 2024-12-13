@@ -1,6 +1,5 @@
 package com.unchain.ui.behavior
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.unchain.data.model.BehaviorResponse
@@ -29,16 +28,12 @@ class BehaviorViewModel @Inject constructor(
     fun fetchBehavior() {
         viewModelScope.launch {
             try {
-                Log.d(TAG, "Fetching behavior data")
                 _behaviorState.value = BehaviorState.Loading
                 val response = behaviorRepository.getBehavior()
-                Log.d(TAG, "Behavior data received: $response")
                 _behaviorState.value = BehaviorState.Success(response)
             } catch (e: HttpException) {
-                Log.e(TAG, "Error fetching behavior data", e)
                 _behaviorState.value = BehaviorState.Error(e.message ?: "Network error occurred")
             } catch (e: Exception) {
-                Log.e(TAG, "Error fetching behavior data", e)
                 _behaviorState.value = BehaviorState.Error(e.message ?: "An error occurred")
             }
         }

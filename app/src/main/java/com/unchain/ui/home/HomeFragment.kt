@@ -125,7 +125,7 @@ class HomeFragment : Fragment() {
                     .into(binding.profileImage)
             }
             // Fetch dashboard data when we have the user ID
-            userPreferences.userId?.let { userId ->
+            userPreferences.userId.let { userId ->
                 viewModel.fetchDashboard(userId)
             }
         }
@@ -145,7 +145,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateDashboardUI(dashboard: DashboardData) {
-        Log.d("HomeFragment", "Updating dashboard UI with data: $dashboard")
         
         // Update the current card based on which one is showing
         when (currentCard?.id) {
@@ -172,7 +171,7 @@ class HomeFragment : Fragment() {
             }
         }
 
-        dashboard.dailyConsume?.let { consumptions ->
+        dashboard.dailyConsume.let { consumptions ->
             dailyConsumeAdapter.setItems(consumptions)
         }
     }
@@ -208,10 +207,10 @@ class HomeFragment : Fragment() {
 
     private fun animateCardSlide(newView: View, slideFromRight: Boolean) {
         val slideOut = android.view.animation.TranslateAnimation(
-            android.view.animation.Animation.RELATIVE_TO_PARENT, 0f,
-            android.view.animation.Animation.RELATIVE_TO_PARENT, if (slideFromRight) -1f else 1f,
-            android.view.animation.Animation.RELATIVE_TO_PARENT, 0f,
-            android.view.animation.Animation.RELATIVE_TO_PARENT, 0f
+            Animation.RELATIVE_TO_PARENT, 0f,
+            Animation.RELATIVE_TO_PARENT, if (slideFromRight) -1f else 1f,
+            Animation.RELATIVE_TO_PARENT, 0f,
+            Animation.RELATIVE_TO_PARENT, 0f
         )
         slideOut.duration = 200
         slideOut.setAnimationListener(object : Animation.AnimationListener {
@@ -221,10 +220,10 @@ class HomeFragment : Fragment() {
                 binding.middleCard.addView(newView)
 
                 val slideIn = android.view.animation.TranslateAnimation(
-                    android.view.animation.Animation.RELATIVE_TO_PARENT, if (slideFromRight) 1f else -1f,
-                    android.view.animation.Animation.RELATIVE_TO_PARENT, 0f,
-                    android.view.animation.Animation.RELATIVE_TO_PARENT, 0f,
-                    android.view.animation.Animation.RELATIVE_TO_PARENT, 0f
+                    Animation.RELATIVE_TO_PARENT, if (slideFromRight) 1f else -1f,
+                    Animation.RELATIVE_TO_PARENT, 0f,
+                    Animation.RELATIVE_TO_PARENT, 0f,
+                    Animation.RELATIVE_TO_PARENT, 0f
                 )
                 slideIn.duration = 200
                 binding.middleCard.startAnimation(slideIn)
@@ -387,8 +386,6 @@ class HomeFragment : Fragment() {
                         isBeverage = isBeverage
                     )
 
-                    Log.d("HomeFragment", "Adding SugarHistory: title=$foodName, weight=$sugarAmount, isBeverage=$isBeverage")
-
                     ApiClient.apiService.addHistory(history)
                         .enqueue(object : Callback<AddHistoryResponse> {
                             override fun onResponse(
@@ -405,7 +402,6 @@ class HomeFragment : Fragment() {
                                     viewModel.userPreferences.value?.userId?.let { userId ->
                                         viewModel.fetchDashboard(userId)  // Refresh dashboard data
                                     }
-                                    Log.d("HomeFragment", "Successfully saved sugar history")
                                 } else {
                                     // Handle error
                                     Toast.makeText(requireContext(), "Failed to add history", Toast.LENGTH_SHORT).show()
@@ -415,7 +411,6 @@ class HomeFragment : Fragment() {
                             override fun onFailure(call: Call<AddHistoryResponse>, t: Throwable) {
                                 loadingDialog.hideLoading()
                                 Toast.makeText(requireContext(), "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
-                                Log.d("HomeFragment", "Network error: ${t.message}")
                             }
                         })
                 }
@@ -476,10 +471,6 @@ class HomeFragment : Fragment() {
     private fun showPremiumDialog() {
         val premiumFragment = PremiumFragment()
         premiumFragment.show(parentFragmentManager, "premium_dialog")
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(

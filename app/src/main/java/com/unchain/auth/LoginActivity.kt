@@ -48,19 +48,19 @@ class LoginActivity : AppCompatActivity() {
         auth = Firebase.auth
         userPreferencesManager = UserPreferencesManager(this)
 
-        // Set up click listeners
+
         binding.loginButton.setOnClickListener {
             signIn()
         }
 
         binding.registerButton.setOnClickListener {
-            signIn() // For now, both buttons do the same thing
+            signIn()
         }
 
-        // Check if user is already signed in, but only if they've clicked a button
+
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            // Clear the current user to force new login
+
             auth.signOut()
         }
     }
@@ -88,8 +88,6 @@ class LoginActivity : AppCompatActivity() {
                 )
                 handleSignIn(result)
             } catch (e: NoCredentialException) {
-                Log.d("LoginActivity", "No saved credentials found, proceeding with fresh login")
-                // When no credentials are found, continue with fresh Google Sign-In
                 try {
                     val freshResult: GetCredentialResponse = credentialManager.getCredential(
                         request = GetCredentialRequest.Builder()
@@ -105,7 +103,7 @@ class LoginActivity : AppCompatActivity() {
                     Log.e("LoginActivity", "Fresh login attempt failed", e)
                     withContext(Dispatchers.Main) {
                         resetButtons()
-                        // Show error message to user
+
                         binding.errorText.text = "Unable to sign in. Please try again."
                         binding.errorText.visibility = View.VISIBLE
                     }
@@ -169,11 +167,11 @@ class LoginActivity : AppCompatActivity() {
                         lifecycleScope.launch(Dispatchers.Main) {
                             try {
                                 withContext(Dispatchers.IO) {
-                                    // Get Firebase token
-                                    val token = it.getIdToken(true).await().token
-                                    Log.d(TAG, "Firebase Token: $token")
 
-                                    // Register user to backend
+                                    val token = it.getIdToken(true).await().token
+
+
+
                                     try {
                                         val response = RetrofitClient.apiService.registerUser(
                                             token = "Bearer $token",

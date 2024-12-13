@@ -1,7 +1,6 @@
 package com.unchain.ui.behavior
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import com.unchain.databinding.FragmentBehaviorBinding
 import com.unchain.ui.behavior.BehaviorViewModel.BehaviorState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @AndroidEntryPoint
 class BehaviorFragment : Fragment() {
@@ -35,7 +35,6 @@ class BehaviorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(TAG, "onViewCreated: Setting up observers and fetching behavior")
         setupObservers()
         setupClickListeners()
         viewModel.fetchBehavior()
@@ -78,7 +77,7 @@ class BehaviorFragment : Fragment() {
             tvMessage.text = data.data.message
 
             // Update status icon and color based on status
-            when (data.data.behaviourStatus.toLowerCase()) {
+            when (data.data.behaviourStatus.lowercase(Locale.getDefault())) {
                 "moderate addiction" -> {
                     ivStatusIcon.setImageResource(R.drawable.ic_warning)
                     ivStatusIcon.setColorFilter(resources.getColor(R.color.warning, null))
