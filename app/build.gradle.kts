@@ -15,6 +15,8 @@ android {
 
     buildFeatures {
         buildConfig = true
+        viewBinding = true
+        mlModelBinding = true
     }
 
     defaultConfig {
@@ -24,8 +26,6 @@ android {
         versionCode = 1
         versionName = "1.0"
         buildConfigField("String", "OPENROUTER_API_KEY", "\"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\"")
-
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
 
@@ -38,6 +38,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "BASE_URL", "\"https://prod-unchain-742693144827.asia-southeast2.run.app/\"")
+        }
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://dev-unchain-742693144827.us-central1.run.app/\"")
         }
     }
     compileOptions {
@@ -49,7 +53,6 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
         mlModelBinding = true
     }
 }

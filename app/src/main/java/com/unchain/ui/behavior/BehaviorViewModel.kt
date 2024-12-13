@@ -11,16 +11,16 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
 
-sealed class BehaviorState {
-    object Loading : BehaviorState()
-    data class Success(val data: BehaviorResponse) : BehaviorState()
-    data class Error(val message: String) : BehaviorState()
-}
-
 @HiltViewModel
 class BehaviorViewModel @Inject constructor(
     private val behaviorRepository: BehaviorRepository
 ) : ViewModel() {
+
+    sealed class BehaviorState {
+        object Loading : BehaviorState()
+        data class Success(val data: BehaviorResponse) : BehaviorState()
+        data class Error(val message: String) : BehaviorState()
+    }
 
     private val _behaviorState = MutableStateFlow<BehaviorState>(BehaviorState.Loading)
     val behaviorState: StateFlow<BehaviorState> = _behaviorState

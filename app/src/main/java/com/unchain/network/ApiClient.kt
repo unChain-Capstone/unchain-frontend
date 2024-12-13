@@ -1,5 +1,6 @@
 package com.unchain.network
 
+import com.unchain.BuildConfig
 import retrofit2.Retrofit
 import okhttp3.OkHttpClient
 import okhttp3.Interceptor
@@ -11,8 +12,8 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 
 object ApiClient {
-    private const val BASE_URL = "https://dev-unchain-742693144827.us-central1.run.app/"
-
+    private const val BASE_URL = BuildConfig.BASE_URL
+    
     private val json = Json { 
         ignoreUnknownKeys = true 
         coerceInputValues = true
@@ -49,17 +50,17 @@ object ApiClient {
         .addInterceptor(loggingInterceptor)
         .build()
 
-    private val contentType = "application/json".toMediaType()
-
-    private val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(json.asConverterFactory(contentType))
-            .build()
-    }
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .client(client)
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+        .build()
 
     val apiService: ApiService by lazy {
         retrofit.create(ApiService::class.java)
+    }
+
+    fun <T> createService(serviceClass: Class<T>): T {
+        return retrofit.create(serviceClass)
     }
 }

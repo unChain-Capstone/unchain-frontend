@@ -1,12 +1,13 @@
 package com.unchain.data.api
 
+import com.unchain.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
-    private const val BASE_URL = "https://dev-unchain-742693144827.us-central1.run.app/"
+    private const val BASE_URL = BuildConfig.BASE_URL
     
     private val okHttpClient = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
